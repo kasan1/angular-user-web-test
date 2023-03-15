@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="mat-elevation-z8 w-100"
+    >
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Наименование ЮЛ/ФИО ФЛ
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.fullname }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>% акции</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.rate }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="requisites">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Реквизиты</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.requisites }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Действия</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            color="primary"
+            class="m-1"
+            matTooltip="Редактировать"
+            aria-label="edit icon button"
+            (click)="editOwner(i)"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="accent"
+            class="my-1 mx-2"
+            matTooltip="Удалить"
+            aria-label="delete icon button"
+            (click)="removeOwner(i)"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <p>
+      *для акционерного общества указываются собственники 10 и более процентов
+      акций
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <button
+      class="my-3 px-3"
+      mat-raised-button
+      color="primary"
+      aria-label="add accessory button"
+      (click)="addOwner()"
+      [disabled]="isReadOnly"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

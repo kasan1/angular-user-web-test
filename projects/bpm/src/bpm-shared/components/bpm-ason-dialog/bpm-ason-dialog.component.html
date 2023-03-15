@@ -1,0 +1,85 @@
+<app-dialog-title title="Адрес"></app-dialog-title>
+
+<form [formGroup]="form">
+  <div mat-dialog-content class="mh-300">
+    <div class="absolute-container" *ngIf="loading$ | async" @fadeInOut>
+      <app-loader></app-loader>
+    </div>
+    <div *ngIf="level1$ | async as l1" @fadeInOut>
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ l1.types }}</mat-label>
+            <mat-select formControlName="level1">
+              <mat-option value="">Не выбрано</mat-option>
+              <mat-option *ngFor="let item of l1.all" [value]="item">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12" *ngIf="level2$ | async as l2" @fadeInOut>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ l2.types }}</mat-label>
+            <mat-select formControlName="level2">
+              <mat-option [value]="0">Не выбрано</mat-option>
+              <mat-option *ngFor="let item of l2.all" [value]="item">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12" *ngIf="level3$ | async as l3" @fadeInOut>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ l3.types }}</mat-label>
+            <mat-select formControlName="level3">
+              <mat-option [value]="0">Не выбрано</mat-option>
+              <mat-option *ngFor="let item of l3.all" [value]="item">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12" *ngIf="level4$ | async as l4" @fadeInOut>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ l4.types }}</mat-label>
+            <mat-select formControlName="level4">
+              <mat-option [value]="0">Не выбрано</mat-option>
+              <mat-option *ngFor="let item of l4.all" [value]="item">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12" *ngIf="level5$ | async as l5" @fadeInOut>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ l5.types }}</mat-label>
+            <mat-select formControlName="level5">
+              <mat-option [value]="0">Не выбрано</mat-option>
+              <mat-option *ngFor="let item of l5.all" [value]="item">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      class="px-5 w-sm-100"
+      [class.access-readonly]="loading$ | async"
+      (click)="result()"
+    >
+      Продолжить
+    </button>
+  </div>
+</form>

@@ -1,0 +1,9 @@
+.link {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+  white-space: pre-wrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,24 @@
+<app-dialog-title title="Продукты"></app-dialog-title>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Продукт</mat-label>
+    <mat-select [formControl]="product">
+      <mat-option *ngFor="let p of data.products" [value]="p.code">{{
+        p.nameRu
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    mat-flat-button
+    color="primary"
+    class="px-5 w-sm-100"
+    type="button"
+    [mat-dialog-close]="product.value"
+  >
+    Сохранить
+  </button>
+</div>

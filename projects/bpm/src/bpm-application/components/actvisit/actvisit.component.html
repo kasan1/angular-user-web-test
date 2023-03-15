@@ -1,0 +1,38 @@
+<bpm-application [showSendButton]="false" [showinWorkButton]="false">
+  <div actions style="width: 100%">
+    <div class="header-container my-3">
+      <h3>Акт осмотра места бизнеса</h3>
+    </div>
+    <!-- <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="getDocument()"
+    >
+      Акт осмотра места бизнеса
+    </button> -->
+    <!-- <mat-divider style="margin: 20px"></mat-divider> -->
+    <div class="mt-4 mb-3 p-3" *ngIf="files$ | async as files" @fadeIn>
+      <bpm-application-files [files]="files"></bpm-application-files>
+    </div>
+    <button
+      type="button"
+      color="primary"
+      class="w-sm-100 px-5"
+      mat-flat-button
+      (click)="documentDialog()"
+    >
+      Добавить документ
+    </button>
+    <mat-divider></mat-divider>
+    <button
+      style="margin-top: 150px"
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="send()"
+    >
+      Отправить
+    </button>
+  </div>
+</bpm-application>

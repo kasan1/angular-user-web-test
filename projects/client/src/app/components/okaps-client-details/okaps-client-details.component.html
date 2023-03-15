@@ -1,0 +1,135 @@
+<div *ngIf="loading" class="spinner">
+  <mat-spinner color="primary" [diameter]="50"></mat-spinner>
+</div>
+<div *ngIf="!loading && details != null" class="headers-align p-3">
+  <mat-accordion>
+    <mat-expansion-panel
+      [expanded]="step === 0"
+      (opened)="setStep(0)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Общие данные *</mat-panel-title>
+        <mat-panel-description>
+          Введите данные об организации
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="mt-3">
+        <app-organisation-form
+          [isReadOnly]="details.isReadOnly"
+        ></app-organisation-form>
+      </div>
+
+      <mat-action-row>
+        <button mat-button color="primary" (click)="nextStep()">Вперед</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step === 1"
+      (opened)="setStep(1)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Руководитель *</mat-panel-title>
+        <mat-panel-description>
+          Введите личные данные руководителя
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="mt-3">
+        <app-person-form
+          [isReadOnly]="details.isReadOnly"
+          [name]="head"
+          [initialState]="details.head"
+          [isExtended]="true"
+        ></app-person-form>
+      </div>
+
+      <mat-action-row>
+        <button mat-button class="grey" (click)="prevStep()">Назад</button>
+        <button mat-button color="primary" (click)="nextStep()">Вперед</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step === 2"
+      (opened)="setStep(2)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Бухгалтер (опционально)</mat-panel-title>
+        <mat-panel-description>
+          Введите личные данные бухгалтера
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="mt-3">
+        <app-person-form
+          [isReadOnly]="details.isReadOnly"
+          [name]="booker"
+          [initialState]="details.booker"
+          [isExtended]="false"
+        ></app-person-form>
+      </div>
+
+      <mat-action-row>
+        <button mat-button class="grey" (click)="prevStep()">Назад</button>
+        <button mat-button color="primary" (click)="nextStep()">Вперед</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step === 3"
+      (opened)="setStep(3)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Кредитная история</mat-panel-title>
+        <mat-panel-description>
+          Введите данные о кредитной истории
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="mt-3">
+        <app-credit-history-table
+          [isReadOnly]="details.isReadOnly"
+        ></app-credit-history-table>
+      </div>
+
+      <mat-action-row>
+        <button mat-button class="grey" (click)="prevStep()">Назад</button>
+        <button mat-button color="primary" (click)="nextStep()">Вперед</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="step === 4"
+      (opened)="setStep(4)"
+      hideToggle
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Аффилированные компании</mat-panel-title>
+        <mat-panel-description>
+          Введите данные об аффилированных компаниях
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="mt-3">
+        <app-affilated-companies-table
+          [isReadOnly]="details.isReadOnly"
+        ></app-affilated-companies-table>
+      </div>
+
+      <mat-action-row>
+        <button mat-button class="grey" (click)="prevStep()">Назад</button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="save()"
+          [disabled]="saving"
+        >
+          {{ details.isReadOnly ? "Далее" : "Сохранить" }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <p class="p-3"><b>*</b> - блоки и поля обязательные для заполнения</p>
+</div>

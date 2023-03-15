@@ -1,0 +1,134 @@
+<div *ngIf="loading" class="spinner">
+  <mat-spinner color="primary" [diameter]="50"></mat-spinner>
+</div>
+<mat-card *ngIf="!loading" class="m-3">
+  <section class="container">
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">
+            Земельные ресурсы (растениводство, пастбища)
+          </h3>
+          <p>Имеются ли у Вас замельные ресурсы (собственность, аренда)?</p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="hasLandAssets"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-land-assets-table
+        *ngIf="hasLandAssets"
+        [isReadOnly]="isReadOnly"
+      ></app-land-assets-table>
+    </article>
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">Биологические активы (животноводство)</h3>
+          <p>Имеются ли у Вас биологические активы в форме животноводства?</p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="hasLiveStockAssets"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-livestock-assets-table
+        *ngIf="hasLiveStockAssets"
+        [isReadOnly]="isReadOnly"
+      ></app-livestock-assets-table>
+    </article>
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">Урожайность (Растениеводство)</h3>
+          <p>Имеются ли у Вас доходы и расходы от растениеводства?</p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="hasFloraAssets"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-flora-assets-table
+        *ngIf="hasFloraAssets"
+        [isReadOnly]="isReadOnly"
+      ></app-flora-assets-table>
+    </article>
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">Производственные мощности в наличие</h3>
+          <p>
+            Имеются ли у Вас в наличие собственные техника (оборудование),
+            здания, сооружения, автотранспорт и т. д.?
+          </p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="hasTechnicAssets"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-technic-assets-table
+        *ngIf="hasTechnicAssets"
+        [isReadOnly]="isReadOnly"
+      ></app-technic-assets-table>
+    </article>
+
+    <div class="row">
+      <div class="col">
+        <button
+          mat-raised-button
+          (click)="save()"
+          color="primary"
+          class="float-right"
+          [disabled]="saving"
+        >
+          {{ isReadOnly ? "Далее" : "Сохранить" }}
+        </button>
+      </div>
+    </div>
+  </section>
+</mat-card>

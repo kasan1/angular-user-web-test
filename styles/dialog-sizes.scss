@@ -1,0 +1,79 @@
+@import "variables";
+
+$large: 98vw;
+$medium: 60vw;
+$small: 35vw;
+
+.d-lg {
+  width: $large;
+}
+
+.d-md {
+  width: $medium;
+}
+
+.d-sm {
+  width: $small;
+}
+
+.d-lg,
+.d-md,
+.d-sm {
+  max-width: unset !important;
+  transition: width 0.3s cubic-bezier(0.17, 0.67, 0.94, 0.78);
+  @media screen and (min-width: $breakpoint-sm) {
+    &.sm-sm {
+      width: $small;
+    }
+
+    &.sm-md {
+      width: $medium;
+    }
+
+    &.sm-lg {
+      width: $large;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-md) {
+    &.md-sm {
+      width: $small;
+    }
+
+    &.md-md {
+      width: $medium;
+    }
+
+    &.md-lg {
+      width: $large;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-lg) {
+    &.lg-sm {
+      width: $small;
+    }
+
+    &.lg-md {
+      width: $medium;
+    }
+
+    &.lg-lg {
+      width: $large;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-xl) {
+    &.xl-sm {
+      width: $small;
+    }
+
+    &.xl-md {
+      width: $medium;
+    }
+
+    &.xl-lg {
+      width: $large;
+    }
+  }
+}

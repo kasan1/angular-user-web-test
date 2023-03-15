@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="mat-elevation-z8 w-100"
+    >
+      <ng-container matColumnDef="culture">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Название культуры
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.culture }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="plannedSquare">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Планируемая площадь посевов, га
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.plannedSquare }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="seedingRate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Норма высева (кг на 1 га)
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.seedingRate }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="priceRealization">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Цена реализации (за 1 тонну)
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.priceRealization }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Затраты</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.cost }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="productivityCurrentYear">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Урожайность за текущий год
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.productivityCurrentYear }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="productivityLastYear">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Урожайность 1 год назад
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.productivityLastYear }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="productivityBeforeLastYear">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Урожайность 2 года назад
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.productivityBeforeLastYear }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Действия</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            color="primary"
+            class="m-1"
+            matTooltip="Редактировать"
+            aria-label="edit icon button"
+            (click)="editFloraAssets(element.id)"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="accent"
+            class="my-1 mx-2"
+            matTooltip="Удалить"
+            aria-label="delete icon button"
+            (click)="removeFloraAssets(element.id)"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <button
+      class="my-3 px-3"
+      mat-raised-button
+      color="primary"
+      aria-label="add accessory button"
+      (click)="addFloraAssets()"
+      [disabled]="!canAdd || isReadOnly"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,224 @@
+<bpm-application [showSendButton]="false" [showinWorkButton]="false">
+  <div actions style="width: 100%">
+    <div class="header-container my-3">
+      <h3>Итоговая страница менеджера</h3>
+    </div>
+
+    <button
+      style="display: block; margin: 2px"
+      type="button"
+      mat-flat-button
+      color="primary"
+      (click)="getDocument('ManagerConclusion')"
+    >
+      Краткое Экономическое Заключение
+    </button>
+
+    <div *ngIf="isAppAccept$ | async as isAppAccept">
+      <button
+        *ngIf="isAppAccept; else divRejectForm"
+        style="display: block; margin: 2px"
+        type="button"
+        mat-flat-button
+        color="primary"
+        (click)="getDocument('ManagerConclusionAccept')"
+      >
+        Уведомление об одобрении
+      </button>
+      <ng-template #divRejectForm>
+        <button
+          style="display: block; margin: 2px"
+          type="button"
+          mat-flat-button
+          color="primary"
+          (click)="getDocument('ManagerConclusionReject')"
+        >
+          Уведомление об отказе
+        </button>
+      </ng-template>
+    </div>
+
+    <mat-divider style="margin: 20px 0px"></mat-divider>
+    <form [formGroup]="form">
+      <div
+        class="col-12 px-0 px-lg-2"
+        *ngIf="ClientCategories$ | async as ClientCategories"
+        @fadeIn
+      >
+        <div class="header-container my-3">
+          <h3>Заемщик</h3>
+        </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Категория заемщика</mat-label>
+          <mat-select formControlName="clientCategoryId">
+            <mat-option [value]="0">Не выбрано</mat-option>
+            <mat-option *ngFor="let c of ClientCategories" [value]="c.id">{{
+              c.nameRu
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="header-container my-3">
+          <h3>Банковская информация</h3>
+        </div>
+        <div class="col-6 px-0 px-lg-2" *ngIf="Banks$ | async as Banks" @fadeIn>
+          <mat-form-field appearance="fill">
+            <mat-label>Банк</mat-label>
+            <mat-select formControlName="bankId">
+              <mat-option [value]="0">Не выбрано</mat-option>
+              <mat-option *ngFor="let c of Banks" [value]="c.id">{{
+                c.nameRu
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-12">
+          <mat-form-field appearance="fill">
+            <mat-label>Номер счета</mat-label>
+            <input formControlName="bankAccount" matInput type="text" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div id="company" class="mt-4">
+        <div class="header-container my-3">
+          <h3>Субъект предпринимательства</h3>
+        </div>
+        <div class="row justify-content-center">
+          <div
+            class="col-lg-3 col-12 mb-3"
+            *ngIf="ClientTypes$ | async as cts"
+            @fadeIn
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>Форма</mat-label>
+              <mat-select formControlName="clientTypeId">
+                <mat-option [value]="null">Не выбрано</mat-option>
+                <mat-option *ngFor="let ct of cts" [value]="ct.id">{{
+                  ct.nameRu
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4 col-12 mb-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Наименование</mat-label>
+              <input
+                matInput
+                formControlName="companyName"
+                #companyName
+                maxlength="200"
+              />
+              <mat-hint align="end"
+                >{{ companyName.value.length }} / 200</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3 col-12 mb-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Вид деятельности</mat-label>
+              <input
+                matInput
+                formControlName="companyActivity"
+                #companyActivity
+                maxlength="200"
+              />
+              <mat-hint align="end"
+                >{{ companyActivity.value.length }} / 200</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-3 col-12 mb-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Серия</mat-label>
+              <input
+                matInput
+                formControlName="companySerialNumber"
+                #companySerialNumber
+                maxlength="200"
+              />
+              <mat-hint align="end"
+                >{{ companySerialNumber.value.length }} / 200</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4 col-12 mb-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Номер</mat-label>
+              <input
+                matInput
+                formControlName="companyRegisterNumber"
+                #companyRegisterNumber
+                maxlength="200"
+              />
+              <mat-hint align="end"
+                >{{ companyRegisterNumber.value.length }} / 200</mat-hint
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3 col-12 mb-3">
+            <mat-form-field appearance="fill">
+              <mat-label>Дата гос регистрации</mat-label>
+              <input
+                matInput
+                formControlName="companyRegisterDate"
+                [matDatepicker]="companyRegisterDatepicker"
+              />
+              <mat-datepicker #companyRegisterDatepicker></mat-datepicker>
+              <mat-datepicker-toggle
+                [for]="companyRegisterDatepicker"
+                matSuffix
+              ></mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- <div class="row justify-content-center mt-5">
+        <div class="col-lg-8 col-12 mb-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Адрес</mat-label>
+            <input
+              matInput
+              formControlName="companyAddress"
+              #companyAddress
+              maxlength="400"
+            />
+            <mat-hint align="end"
+              >{{ companyAddress.value.length }} / 400</mat-hint
+            >
+            <button
+              matSuffix
+              mat-icon-button
+              color="accent"
+              type="button"
+              (click)="asonDialog()"
+            >
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div> -->
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-12">
+            <mat-slide-toggle formControlName="companyNdc"
+              >НДС</mat-slide-toggle
+            >
+          </div>
+        </div>
+      </div>
+      <button
+        style="margin-top: 150px"
+        type="button"
+        mat-flat-button
+        color="primary"
+        (click)="send()"
+      >
+        Отправить
+      </button>
+    </form>
+  </div>
+</bpm-application>

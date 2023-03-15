@@ -1,0 +1,210 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p class="input-title">ФИО *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>ФИО</mat-label>
+          <input formControlName="fullname" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Гражданство *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Страна</mat-label>
+          <mat-select formControlName="country">
+            <mat-option *ngFor="let country of countries" [value]="country">
+              {{ country.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <section *ngIf="isResident" class="mt-3">
+      <div class="row">
+        <div class="col">
+          <p class="input-title">ИИН *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>ИИН</mat-label>
+            <input
+              formControlName="identifier"
+              matInput
+              mask="000000000000"
+              [showMaskTyped]="true"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </section>
+    <section class="mt-3">
+      <div class="row" [formGroup]="form.get('identificationDocument')">
+        <div class="col">
+          <p class="input-title">Паспортные данные *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Номер</mat-label>
+            <input formControlName="number" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Кем выдано</mat-label>
+            <input formControlName="issuer" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="example-form-field">
+            <mat-label>Дата выдачи</mat-label>
+            <input
+              matInput
+              [matDatepicker]="identificationDocumentDate"
+              formControlName="date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="identificationDocumentDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #identificationDocumentDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </section>
+
+    <div class="row" [formGroup]="form.get('phone')">
+      <div class="col">
+        <p class="input-title">Телефон *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Рабочий номер</mat-label>
+          <input formControlName="work" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Мобильный номер</mat-label>
+          <input formControlName="mobile" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Домашний номер</mat-label>
+          <input formControlName="home" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Дата рождения *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Выберите дату</mat-label>
+          <input
+            matInput
+            [matDatepicker]="birthDate"
+            formControlName="birthDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="birthDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #birthDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Место рождения *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Место рождения</mat-label>
+          <input formControlName="birthPlace" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" [formGroup]="form.get('address')">
+      <div class="col">
+        <p class="input-title">Адрес *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Фактический адрес</mat-label>
+          <input formControlName="fact" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <section *ngIf="isExtended">
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Образование *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Образование</mat-label>
+            <input formControlName="education" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" [formGroup]="form.get('workExperience')">
+        <div class="col">
+          <p class="input-title">Стаж работы *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Общий</mat-label>
+            <input formControlName="total" matInput />
+            <mat-hint>2 года 9 месяцев</mat-hint>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>В сельском хозяйстве</mat-label>
+            <input formControlName="agriculture" matInput />
+            <mat-hint>15 лет 3 месяца</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Семейный статус *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Семейный статус</mat-label>
+            <mat-select formControlName="marriageStatus">
+              <mat-option
+                *ngFor="let marriageStatus of marriageStatuses"
+                [value]="marriageStatus"
+              >
+                {{ marriageStatus.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div
+        class="row"
+        *ngIf="marriageStatus.value !== null && marriageStatus.value.code == 2"
+      >
+        <div class="col">
+          <p class="input-title">Супруг(а) ФИО *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>ФИО</mat-label>
+            <input formControlName="spouse" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+    </section>
+  </div>
+</form>

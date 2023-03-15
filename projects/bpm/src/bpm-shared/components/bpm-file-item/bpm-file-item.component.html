@@ -1,0 +1,41 @@
+<div class="d-flex">
+  <button [matMenuTriggerFor]="menu" mat-icon-button type="button">
+    <mat-icon>article</mat-icon>
+  </button>
+
+  <button
+    [matMenuTriggerFor]="menu"
+    mat-button
+    type="button"
+    class="overflow-hidden"
+  >
+    {{ file.title }}
+  </button>
+
+  <mat-menu #menu>
+    <div class="menu-vertical">
+      <button mat-menu-item class="menu-item" type="button" (click)="getFile()">
+        {{ locale.view }}
+      </button>
+      <button
+        mat-menu-item
+        class="menu-item"
+        type="button"
+        (click)="getFile(true)"
+      >
+        {{ locale.download }}
+      </button>
+      <button
+        *ngIf="hasActions"
+        mat-menu-item
+        class="menu-item"
+        type="button"
+        (click)="delete()"
+      >
+        {{ locale.delete }}
+      </button>
+    </div>
+  </mat-menu>
+
+  <button mat-button type="button" class="ml-auto">{{ size() }}</button>
+</div>

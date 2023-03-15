@@ -1,0 +1,42 @@
+<div *ngIf="locale$ | async as locale">
+  <div *ngIf="ref" mat-dialog-title>{{ locale.login }}</div>
+
+  <form (ngSubmit)="submit()" autocomplete="off" [formGroup]="form">
+    <div mat-dialog-content>
+      <div class="row">
+        <div class="col-12 mb-2">
+          <mat-form-field appearance="fill">
+            <mat-label>ИИН/БИН</mat-label>
+            <input cdkFocusInitial matInput formControlName="login" />
+            <mat-hint
+              class="warn"
+              align="end"
+              @fadeIn
+              *ngIf="login().errors && login().errors.invalidIin"
+            >
+              {{ login().errors.message }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field appearance="fill">
+            <mat-label>Пароль</mat-label>
+            <input matInput formControlName="password" type="password" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div mat-dialog-actions>
+      <button
+        type="submit"
+        class="w-xs-100"
+        mat-flat-button
+        color="primary"
+        [class.access-readonly]="loading$ | async"
+      >
+        {{ locale.loginMessage }}
+      </button>
+    </div>
+  </form>
+</div>

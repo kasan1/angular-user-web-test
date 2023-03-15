@@ -1,0 +1,359 @@
+<bpm-application-base [purpose]="false" [finAnalysis]="false">
+  <div addons class="mt-5" *ngIf="application$ | async as app">
+    <div *ngIf="condition$ | async as cond" @fadeIn class="mb-5">
+      <div class="mb-3">
+        <h3>Условия кредитования</h3>
+      </div>
+      <app-table
+        [position]="false"
+        [table]="cond"
+        [elevation]="true"
+        [selectable]="false"
+      ></app-table>
+    </div>
+
+    <div class="row no-gutters mb-5">
+      <div
+        class="col-lg-4 col-12 pr-lg-5 mb-5 mb-lg-0"
+        *ngIf="period$ | async as period"
+      >
+        <div class="mb-3">
+          <h3>Льготный период</h3>
+        </div>
+        <app-table
+          [position]="false"
+          [table]="period"
+          [elevation]="true"
+          [selectable]="false"
+        ></app-table>
+      </div>
+
+      <div
+        class="col-lg-8 col-12 mb-5 mb-lg-0"
+        *ngIf="payment$ | async as payment"
+      >
+        <div class="mb-3">
+          <h3>Периодичность погашения</h3>
+        </div>
+        <app-table
+          [position]="false"
+          [table]="payment"
+          [elevation]="true"
+          [selectable]="false"
+        ></app-table>
+      </div>
+    </div>
+
+    <div *ngIf="purpose$ | async as purp" @fadeIn class="mb-5">
+      <div class="mb-3">
+        <h3>Цель займа</h3>
+      </div>
+      <app-table
+        [position]="false"
+        [table]="purp"
+        [elevation]="true"
+        [selectable]="false"
+      ></app-table>
+    </div>
+
+    <div *ngIf="holdings$ | async as h" @fadeIn class="mb-5">
+      <div *ngFor="let item of h" @fadeIn class="mb-4">
+        <div *ngIf="item.client">
+          <div class="mb-3">
+            <h3>Залогодатель</h3>
+          </div>
+          <div class="my-3">
+            <app-table
+              [position]="false"
+              [table]="item.client"
+              [selectable]="false"
+              [elevation]="true"
+            ></app-table>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <h3 class="mt-5">Обеспечение</h3>
+        </div>
+        <div class="my-3" *ngIf="item.name">
+          <app-table
+            [position]="false"
+            [table]="item.name"
+            [selectable]="false"
+            [elevation]="true"
+          ></app-table>
+        </div>
+
+        <div class="my-3" *ngIf="item.holding">
+          <app-table
+            [position]="false"
+            [table]="item.holding"
+            [selectable]="false"
+            [elevation]="true"
+          ></app-table>
+        </div>
+
+        <div class="my-3" *ngIf="item.holding2">
+          <app-table
+            [position]="false"
+            [table]="item.holding2"
+            [selectable]="false"
+            [elevation]="true"
+          ></app-table>
+        </div>
+
+        <div class="my-3" *ngIf="item.nok">
+          <div class="mt-5">
+            <h3>Стоимость</h3>
+          </div>
+          <app-table
+            [position]="false"
+            [table]="item.nok"
+            [selectable]="false"
+            [elevation]="true"
+          ></app-table>
+        </div>
+        <mat-divider class="my-5"></mat-divider>
+      </div>
+    </div>
+  </div>
+
+  <div actions class="mb-3 d-flex flex-column w-100">
+    <div class="d-flex">
+      <button
+      
+        *ngIf="showinWorkButton"
+        mat-flat-button
+        color="accent"
+        type="button"
+        class="px-5 w-sm-100 ml-lg-auto mb-4"
+        (click)="inWork()"
+      >
+        Переход: В работе
+      </button>
+    </div>
+
+    <div class="d-flex flex-column mb-5">
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(1)"
+      >
+        Показатели
+      </button>
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(2)"
+      >
+        Описание бизнес проекта
+      </button>
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(3)"
+      >
+        Документы по проекту
+      </button>
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(4)"
+      >
+        Опись кредитного досье
+      </button>
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(5)"
+      >
+        Экспертизы
+      </button>
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(6)"
+      >
+        Решения КК ЦПР
+      </button>
+      <button
+        class="w-100 text-left"
+        mat-button
+        color="primary"
+        type="button"
+        (click)="switchType(7)"
+      >
+        История заявки
+      </button>
+    </div>
+
+    <div *ngIf="type$ | async as type" @fadeInOut class="ml-lg-3 mb-5">
+      <mat-divider class="mb-5"></mat-divider>
+      <div *ngIf="type == 1" @fadeIn>
+        <div *ngIf="finAnalysis$ | async as fa" @fadeIn>
+          <bpm-fin-analysis [finAnalysis]="fa"></bpm-fin-analysis>
+        </div>
+      </div>
+      <div *ngIf="type == 2" @fadeIn>
+        <div *ngIf="projectDescription$ | async as pd" @fadeIn>
+          <mat-form-field appearance="fill">
+            <mat-label>Описание бизнес проекта</mat-label>
+            <textarea matInput readonly [value]="pd" rows="10"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="type == 3" @fadeIn class="mh-300 position-relative">
+        <div
+          class="absolute-container"
+          *ngIf="filesLoading$ | async"
+          @fadeInOut
+        >
+          <app-loader></app-loader>
+        </div>
+        <div *ngIf="files$ | async as files" @fadeIn>
+          <bpm-application-files
+            [hasActions]="false"
+            [files]="files"
+          ></bpm-application-files>
+        </div>
+      </div>
+
+      <div *ngIf="type == 4" @fadeIn>
+        <div *ngIf="files$ | async as files" @fadeIn>
+          <bpm-application-files-settings
+            *ngIf="appId$ | async as appId"
+            [appId]="appId"
+          ></bpm-application-files-settings>
+        </div>
+      </div>
+      <div *ngIf="type == 5" @fadeIn>
+        <div *ngIf="expertResults$ | async as expertResults" @fadeIn>
+          <table
+            [class.border]="expertResults.length"
+            style="text-align: center; width: 100%"
+          >
+            <tr>
+              <th [class.border]="expertResults.length">Этап</th>
+              <th [class.border]="expertResults.length">Исполнитель</th>
+              <th [class.border]="expertResults.length">Решение</th>
+              <th [class.border]="expertResults.length">Комментарии</th>
+            </tr>
+            <tr *ngFor="let item of expertResults; let i = index">
+              <td [class.border]="expertResults.length">
+                {{ item.expertiseNameRu }}
+              </td>
+              <td [class.border]="expertResults.length">
+                {{ item.expertName }}
+              </td>
+              <td [class.border]="expertResults.length">{{ item.nameRu }}</td>
+              <td [class.border]="expertResults.length">
+                {{ item.comment }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="type == 6" @fadeIn>
+        <div *ngIf="decision$ | async as decision" @fadeIn>
+          <bpm-application-committee-result
+            [сommitteeDecision]="decision"
+          ></bpm-application-committee-result>
+        </div>
+      </div>
+      <div *ngIf="type == 7" @fadeIn>
+        <div *ngIf="history$ | async as history" @fadeIn class="mb-5">
+          <div class="mb-3">
+            <h3>История заявки</h3>
+          </div>
+          <!-- <app-table [table]="history"></app-table> -->
+          <table [class.border]="history.length" style="text-align: center">
+            <tr>
+              <th [class.border]="history.length">Этап заявки</th>
+              <th [class.border]="history.length">Время поступления заявки</th>
+              <th [class.border]="history.length">Время принятия в работу</th>
+              <th [class.border]="history.length">
+                Время предоставления ответа
+              </th>
+              <th [class.border]="history.length">Исполнитель</th>
+              <th [class.border]="history.length">Статус</th>
+              <th [class.border]="history.length">Решение</th>
+              <th [class.border]="history.length">Комментарии</th>
+            </tr>
+            <tr *ngFor="let item of history; let i = index">
+              <td [class.border]="history.length">{{ item.statusTitle }}</td>
+              <td [class.border]="history.length">{{ item.dateCreated }}</td>
+              <td [class.border]="history.length">
+                {{ item.appointmentDate }}
+              </td>
+              <td [class.border]="history.length">{{ item.factEndDate }}</td>
+              <td [class.border]="history.length">{{ item.clientFullName }}</td>
+              <td
+                [class.border]="history.length"
+                *ngIf="item.decisionCode == 'accept'"
+                style="color: green"
+              >
+                <mat-icon>label</mat-icon>
+              </td>
+              <td
+                [class.border]="history.length"
+                *ngIf="item.decisionCode == 'reject'"
+                style="color: red"
+              >
+                <mat-icon>label</mat-icon>
+              </td>
+              <td
+                [class.border]="history.length"
+                *ngIf="item.decisionCode == 'return'"
+                style="color: #d7d446"
+              >
+                <mat-icon>label</mat-icon>
+              </td>
+              <td
+                [class.border]="history.length"
+                *ngIf="
+                  item.decisionCode != 'accept' &&
+                  item.decisionCode != 'reject' &&
+                  item.decisionCode != 'return'
+                "
+              ></td>
+              <td [class.border]="history.length">{{ item.decisionNameRu }}</td>
+              <td [class.border]="history.length">{{ item.comment }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="ml-lg-3">
+      <div class="d-flex">
+        <ng-content select="[actions]"></ng-content>
+      </div>
+    </div>
+
+    <div class="d-flex">
+      <button
+        *ngIf="showSendButton"
+        mat-flat-button
+        type="button"
+        color="primary"
+        class="px-5 w-sm-100 ml-lg-auto"
+        (click)="sendManager()"
+      >
+        Отправить
+      </button>
+    </div>
+  </div>
+</bpm-application-base>

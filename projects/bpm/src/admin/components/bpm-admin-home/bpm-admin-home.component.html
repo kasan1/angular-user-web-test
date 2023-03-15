@@ -1,0 +1,54 @@
+<p>bpm-admin-home works!</p>
+<div class="condensed">
+  
+    <form [formGroup]="form" >
+      <div mat-dialog-content style="max-height: 82.5vh">
+        <div class="absolute-container" fadeInOut>
+          <app-loader></app-loader>
+        </div>
+
+              <div class="d-flex justify-content-center mb-5">
+                <mat-button-toggle-group
+               
+                  class="d-flex flex-md-row flex-column w-sm-100"
+                >
+                  <mat-button-toggle value="1" >
+                    <span class="px-5">Лизинг</span>
+                  </mat-button-toggle>
+                  <mat-button-toggle value="2" >
+                    <span class="px-5">Кредитование</span>
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+  
+              <!-- <div *ngIf="fl == '1'" @fadeIn>
+                <div class="d-flex justify-content-center mb-5">
+                  <mat-button-toggle-group
+                    [value]="sl"
+                    (change)="secondLevelChange($event)"
+                    class="d-flex flex-md-row flex-column w-sm-100"
+                  >
+                    <mat-button-toggle value="1" [disabled]="data.id"
+                      ><span class="px-5">Новая техника</span></mat-button-toggle
+                    >
+                    <mat-button-toggle value="2" [disabled]="data.id"
+                      ><span class="px-5">Вторичная техника</span></mat-button-toggle
+                    >
+                  
+                  </mat-button-toggle-group>
+                </div>
+  
+              
+              </div> -->
+  
+              
+  
+              <mat-divider></mat-divider>
+            
+  
+            
+      </div>
+
+    </form>
+  </div>
+  

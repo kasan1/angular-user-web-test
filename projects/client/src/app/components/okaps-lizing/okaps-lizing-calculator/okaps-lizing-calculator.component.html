@@ -1,0 +1,125 @@
+<div class="container my-4" *ngIf="calculatorResult !== null">
+  <mat-card class="mat-elevation-z8">
+    <div class="row">
+      <div class="col">
+        <h3 class="text-center">Калькулятор</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <p>Общая сумма</p>
+          </div>
+          <div class="col">
+            <p class="primary">
+              {{ calculatorResult.sum | amountConverter: "ru" }} тенге
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>Ставка</p>
+          </div>
+          <div class="col">
+            <p class="primary">{{ calculatorResult.rate }} %</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>Софинанисирование</p>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <mat-slider
+                  thumbLabel
+                  color="primary"
+                  tickInterval="1"
+                  [value]="coFinancing"
+                  min="{{ calculatorResult.coFinancing }}"
+                  max="50"
+                  (change)="onCoFinancingChange($event)"
+                  [disabled]="isReadOnly"
+                ></mat-slider>
+                <span class="primary">{{ coFinancing }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <p>Итого (сумма после софинансирования)</p>
+          </div>
+          <div class="col">
+            <p class="primary">{{ total | amountConverter: "ru" }} тенге</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>Срок</p>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <mat-slider
+                  thumbLabel
+                  color="primary"
+                  tickInterval="1"
+                  [value]="period"
+                  min="3"
+                  max="{{ calculatorResult.period }}"
+                  (change)="onPeriodChange($event)"
+                  [disabled]="isReadOnly"
+                ></mat-slider>
+                <span class="primary">{{ period }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">
+        <a
+          [href]="
+            fileServer + '/docs/Общие_условия_финансирования_на_01.01.2021.doc'
+          "
+          target="_blank"
+          class="primary uppercase underline d-inline-block my-3"
+          >Условия финансирования</a
+        >
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="row my-5">
+    <div class="col text-center">
+      <a mat-button color="primary" [href]="paymentUrl" target="_blank"
+        >График платежей</a
+      >
+      <p class="mat-body-1 my-1">
+        Нажмите на график платежей для того чтобы скачать документ и
+        ознакомиться с ним
+      </p>
+    </div>
+  </div>
+
+  <div class="row mt-4 d-none">
+    <div class="col">
+      <p *ngIf="calculatorResult !== null" class="payment-info">
+        По договору №{{ index + 1 }} ежемесячная выплата в размере
+        <b>? тенге</b> на протижении <b>{{ period }} месяцев</b> с
+        софинансированием в размере
+        <b>{{ coFinancing }}%</b>
+      </p>
+    </div>
+  </div>
+</div>

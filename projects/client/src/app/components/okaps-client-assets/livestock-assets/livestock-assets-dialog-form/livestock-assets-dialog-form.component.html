@@ -1,0 +1,92 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="form">
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Вид скота</mat-label>
+          <mat-select formControlName="parentlivestockTypeId">
+            <mat-option
+              *ngFor="let livestockType of parentlivestockTypes"
+              [value]="livestockType.id"
+            >
+              {{ livestockType.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Подвид скота</mat-label>
+          <mat-select formControlName="livestockTypeId">
+            <mat-option
+              *ngFor="let livestockType of childlivestockTypes"
+              [value]="livestockType.id"
+            >
+              {{ livestockType.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Общее количество</mat-label>
+          <input matInput formControlName="count" min="0" type="number" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Количество в живом весе</mat-label>
+          <input matInput formControlName="liveWeight" min="0" type="number" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Количество в убойном весе</mat-label>
+          <input
+            matInput
+            formControlName="slaughterWeight"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Цена реализации в живом весе</mat-label>
+          <input matInput formControlName="livePrice" min="0" type="number" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Цена реализации в убойном весе</mat-label>
+          <input
+            matInput
+            formControlName="slaughterPrice"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      class="my-3"
+      *ngIf="!form.invalid"
+      type="submit"
+      color="primary"
+      mat-raised-button
+    >
+      Сохранить
+    </button>
+  </mat-dialog-actions>
+</form>

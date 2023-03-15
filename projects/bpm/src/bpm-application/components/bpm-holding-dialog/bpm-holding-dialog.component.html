@@ -1,0 +1,958 @@
+<div class="condensed">
+  <app-dialog-title title="Обеспечение"></app-dialog-title>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div mat-dialog-content style="max-height: 82.5vh">
+      <div class="absolute-container" *ngIf="loading$ | async" fadeInOut>
+        <app-loader></app-loader>
+      </div>
+      <div *ngIf="firstLevel$ | async as fl">
+        <div *ngIf="secondLevel$ | async as sl">
+          <div *ngIf="thirdLevel$ | async as tl">
+            <div class="d-flex justify-content-center mb-5">
+              <mat-button-toggle-group
+                [value]="fl"
+                [disabled]="asonLoading$ | async"
+                (change)="firstLevelChange($event)"
+                class="d-flex flex-md-row flex-column w-sm-100"
+              >
+                <mat-button-toggle value="1" [disabled]="data.id">
+                  <span class="px-5">Недвижимость</span>
+                </mat-button-toggle>
+                <mat-button-toggle value="2" [disabled]="data.id">
+                  <span class="px-5">Движимое имущество</span>
+                </mat-button-toggle>
+                <mat-button-toggle value="3" [disabled]="data.id">
+                  <span class="px-5">Гарантия и поручительство</span>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+
+            <div *ngIf="fl == '1'" @fadeIn>
+              <div class="d-flex justify-content-center mb-5">
+                <mat-button-toggle-group
+                  [value]="sl"
+                  [disabled]="asonLoading$ | async"
+                  (change)="secondLevelChange($event)"
+                  class="d-flex flex-md-row flex-column w-sm-100"
+                >
+                  <mat-button-toggle value="1" [disabled]="data.id"
+                    ><span class="px-5">Жилая</span></mat-button-toggle
+                  >
+                  <mat-button-toggle value="2" [disabled]="data.id"
+                    ><span class="px-5">Коммерческая</span></mat-button-toggle
+                  >
+                  <mat-button-toggle value="3" [disabled]="data.id"
+                    ><span class="px-5"
+                      >Земельный участок</span
+                    ></mat-button-toggle
+                  >
+                </mat-button-toggle-group>
+              </div>
+
+              <div
+                *ngIf="sl == '1'"
+                class="d-flex justify-content-center mb-5"
+                @fadeIn
+              >
+                <mat-button-toggle-group
+                  [value]="tl"
+                  [disabled]="asonLoading$ | async"
+                  (change)="thirdLevelChange($event)"
+                  class="d-flex flex-md-row flex-column w-sm-100"
+                >
+                  <mat-button-toggle value="1" [disabled]="data.id"
+                    ><span class="px-5">Частный дом</span></mat-button-toggle
+                  >
+                  <mat-button-toggle value="2" [disabled]="data.id"
+                    ><span class="px-5">Квартира</span></mat-button-toggle
+                  >
+                </mat-button-toggle-group>
+              </div>
+            </div>
+
+            <div *ngIf="fl == '2'" @fadeIn>
+              <div class="d-flex justify-content-center mb-5">
+                <mat-button-toggle-group
+                  [value]="sl"
+                  (change)="secondLevelChange($event)"
+                  class="d-flex flex-md-row flex-column w-sm-100"
+                >
+                  <mat-button-toggle value="1" [disabled]="data.id"
+                    ><span class="px-5">Транспорт</span></mat-button-toggle
+                  >
+                  <mat-button-toggle value="2" [disabled]="data.id"
+                    ><span class="px-5">Деньги</span></mat-button-toggle
+                  >
+                </mat-button-toggle-group>
+              </div>
+              <div
+                *ngIf="sl == '1'"
+                class="d-flex justify-content-center mb-5"
+                @fadeIn
+              >
+                <mat-button-toggle-group
+                  [value]="tl"
+                  (change)="thirdLevelChange($event)"
+                  class="d-flex flex-md-row flex-column w-sm-100"
+                >
+                  <mat-button-toggle value="1" [disabled]="data.id"
+                    ><span class="px-5">Автотранспорт</span></mat-button-toggle
+                  >
+                  <mat-button-toggle value="2" [disabled]="data.id"
+                    ><span class="px-5">Сельхозтехника</span></mat-button-toggle
+                  >
+                </mat-button-toggle-group>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div
+              formArrayName="chargees"
+              *ngFor="let c of chargees().controls; let i = index"
+              @fadeInOut
+            >
+              <div [formGroupName]="i">
+                <div
+                  class="d-flex align-items-center justify-content-between mt-3"
+                >
+                  <div class="my-4">
+                    <mat-slide-toggle formControlName="samePerson"
+                      >Заемщик является залогодателем?</mat-slide-toggle
+                    >
+                  </div>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    color="accent"
+                    (click)="removeChargee(i)"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-6 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>ИИН</mat-label>
+                      <input matInput type="text" formControlName="iin" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>ФИО</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="fullName"
+                        maxlength="200"
+                        #fullName
+                      />
+                      <mat-hint align="end">
+                        {{ fullName.value.length }} / 200
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Номер</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="documentNumber"
+                        maxlength="50"
+                        #number
+                      />
+                      <mat-hint align="end">
+                        {{ number.value.length }} / 50
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-2 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Дата выдачи</mat-label>
+                      <input
+                        [matDatepicker]="pickerFrom"
+                        matInput
+                        formControlName="documentBeginDate"
+                      />
+                      <mat-datepicker #pickerFrom></mat-datepicker>
+                      <mat-datepicker-toggle
+                        [for]="pickerFrom"
+                        matSuffix
+                      ></mat-datepicker-toggle>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-2 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Срок действия</mat-label>
+                      <input
+                        [matDatepicker]="pickerTo"
+                        matInput
+                        formControlName="documentEndDate"
+                      />
+                      <mat-datepicker #pickerTo></mat-datepicker>
+                      <mat-datepicker-toggle
+                        [for]="pickerTo"
+                        matSuffix
+                      ></mat-datepicker-toggle>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-4 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Кем выдан</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="documentOrganizationName"
+                        maxlength="200"
+                        #orgName
+                      />
+                      <mat-hint align="end">
+                        {{ orgName.value.length }} / 200
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              class="px-5 w-sm-100 mt-4"
+              mat-flat-button
+              color="accent"
+              type="button"
+              (click)="addChargee()"
+            >
+              Добавить залогодателя
+            </button>
+
+            <div *ngIf="fl == '1'" @fadeIn class="mt-5">
+              <div class="row">
+                <div class="col-lg-6 col-12 offset-lg-3">
+                  <div class="header-container mb-3">
+                    <h3>Кадастровый номер</h3>
+                  </div>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Кадастровый номер</mat-label>
+                    <input formControlName="cadastralNumber" matInput />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row mb-4" @fadeIn *ngIf="fl == '1'">
+                <div class="col-lg-8 col-12 offset-lg-2">
+                  <div class="header-container my-3">
+                    <h3>Адрес местонахождения</h3>
+                  </div>
+                  <kato-title [code]="cato$"></kato-title>
+                  <kato-selector (resultKatoCode)="_setKatoCodeResult($event)"></kato-selector>
+                  <div *ngIf="(displayAddress$ | async) || sl != '1'" @fadeIn>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Адрес местонахождения</mat-label>
+                          <input formControlName="address" matInput />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div
+                      class="row justify-content-center y-4"
+                      *ngIf="sl == '1' || sl == '2'"
+                      @fadeIn
+                    >
+                      <div class="col-lg-4 col-12">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Номер дома</mat-label>
+                          <input
+                            type="number"
+                            formControlName="houseNumber"
+                            matInput
+                          />
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-lg-4 col-12">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Номер квартиры</mat-label>
+                          <input
+                            type="number"
+                            formControlName="roomNumber"
+                            matInput
+                          />
+                        </mat-form-field>
+                      </div>
+
+                      <div
+                        class="col-lg-4 col-12"
+                        *ngIf="wallMaterials$ | async as wms"
+                        @fadeIn
+                      >
+                        <mat-form-field appearance="fill">
+                          <mat-label>Материал стен</mat-label>
+                          <mat-select formControlName="wallMaterial">
+                            <mat-option [value]="null">Не выбрано</mat-option>
+                            <mat-option *ngFor="let wm of wms" [value]="wm.id">
+                              {{ wm.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex" *ngIf="sl == '1'" @fadeIn>
+                    <button
+                      mat-flat-button
+                      color="primary"
+                      class="w-sm-100 mx-auto px-5"
+                      type="button"
+                      (click)="asonDialog()"
+                    >
+                      Выбрать
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <div class="header-container my-3">
+                <h3>Параметры недвижимости</h3>
+              </div>
+
+              <div
+                class="row justify-content-center"
+                *ngIf="rent$ | async as rent"
+                @fadeIn
+              >
+                <div
+                  class="col-lg-10 col-12"
+                  *ngIf="landPurposes$ | async as lps"
+                  @fadeIn
+                >
+                  <mat-form-field appearance="fill">
+                    <mat-label>Назначение земельного участка</mat-label>
+                    <mat-select formControlName="landPurpose">
+                      <mat-option [value]="0">Не выбрано</mat-option>
+                      <mat-option *ngFor="let lp of lps" [value]="lp.code">{{
+                        lp.nameRu
+                      }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="w-100"></div>
+
+                <div class="col-lg-6 col-12 my-5">
+                  <mat-button-toggle-group
+                    class="w-100"
+                    [value]="rent"
+                    (change)="rentChange($event)"
+                    class="d-flex flex-md-row flex-column w-sm-100"
+                  >
+                    <mat-button-toggle class="w-100" [value]="1"
+                      >Частная собственность</mat-button-toggle
+                    >
+                    <mat-button-toggle class="w-100" [value]="2"
+                      >Аренда</mat-button-toggle
+                    >
+                  </mat-button-toggle-group>
+                </div>
+                <div class="w-100"></div>
+
+                <div class="col-lg-4 col-12 mb-4" *ngIf="rent == 2" @fadeIn>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Срок аренды год(-а)</mat-label>
+                    <input matInput type="number" formControlName="rentedFor" />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div
+                class="row justify-content-center mb-3"
+                *ngIf="sl == '2'"
+                @fadeIn
+              >
+                <div class="col-lg-8 col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Наименование</mat-label>
+                    <input
+                      formControlName="commercialName"
+                      matInput
+                      #commercialName
+                      maxLength="200"
+                    />
+                    <mat-hint align="end"
+                      >{{ commercialName.value.length }} / 200</mat-hint
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row justify-content-center mb-3">
+                <div class="col-lg-3 col-12" *ngIf="sl !== '3'" @fadeIn>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Общ. площадь, кв. м.</mat-label>
+                    <input type="number" formControlName="totalArea" matInput />
+                  </mat-form-field>
+                </div>
+                <div
+                  class="col-lg-3 col-12"
+                  *ngIf="fl == '1' && sl == '1'"
+                  @fadeIn
+                >
+                  <mat-form-field appearance="fill">
+                    <mat-label>Жил. площадь, кв. м.</mat-label>
+                    <input
+                      type="number"
+                      formControlName="livingArea"
+                      matInput
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3 col-12" *ngIf="sl !== '3'" @fadeIn>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Год постройки</mat-label>
+                    <input
+                      type="number"
+                      formControlName="builtYear"
+                      matInput
+                      #builtYear
+                    />
+                    <mat-hint
+                      align="end"
+                      class="accent"
+                      @fadeIn
+                      *ngIf="builtYear.value && currentYear() < builtYear.value"
+                      >Год постройки не может быть больше текущего</mat-hint
+                    >
+                    <mat-hint
+                      align="end"
+                      class="accent"
+                      @fadeIn
+                      *ngIf="
+                        builtYear.value && builtYear.value < currentYear() - 60
+                      "
+                      >Год постройки не соответствует требованиям</mat-hint
+                    >
+                  </mat-form-field>
+                </div>
+                <div
+                  class="col-lg-3 col-12"
+                  *ngIf="
+                    fl == '1' &&
+                    (sl == '2' || sl == '3' || (sl == '1' && tl == '1'))
+                  "
+                  @fadeIn
+                >
+                  <mat-form-field appearance="fill">
+                    <mat-label>Площадь зем. участка, га.</mat-label>
+                    <input type="number" formControlName="landArea" matInput />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div
+                class="row my-4"
+                *ngIf="fl == '1' && sl == '1' && tl == '1'"
+                @fadeInOut
+              >
+                <div class="col-12">
+                  <mat-slide-toggle formControlName="hasLiters"
+                    >Имеются литеры</mat-slide-toggle
+                  >
+                </div>
+              </div>
+
+              <div
+                *ngIf="hasLiters().value && fl == '1' && sl == '1' && tl == '1'"
+                formArrayName="liters"
+                @fadeInOut
+                class="my-4"
+              >
+                <div
+                  class="row"
+                  *ngFor="let control of liters().controls; let i = index"
+                  [formGroupName]="i"
+                  @fadeInOut
+                >
+                  <div class="col-lg-4 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Литер</mat-label>
+                      <input
+                        matInput
+                        formControlName="value"
+                        #liter
+                        maxlength="100"
+                      />
+                      <mat-hint align="end"
+                        >{{ liter.value.length }} / 100</mat-hint
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-5 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Наименование</mat-label>
+                      <input
+                        matInput
+                        formControlName="name"
+                        #literName
+                        maxlength="200"
+                      />
+                      <mat-hint align="end"
+                        >{{ literName.value.length }} / 200</mat-hint
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-2 col-md-11 col-10 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Площадь</mat-label>
+                      <input matInput formControlName="area" type="number" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-1 col-2 d-flex justify-content-center">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      class="mt-2"
+                      color="accent"
+                      (click)="removeLiter(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  mat-flat-button
+                  color="accent"
+                  class="px-5 w-sm-100"
+                  (click)="addLiter()"
+                >
+                  Добавить литер
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="fl == '2'" @fadeIn class="mt-5">
+              <div
+                class="d-flex justify-content-center mb-5"
+                @fadeIn
+                *ngIf="sl == '1' && tl == '1'"
+              >
+                <div *ngIf="transportTypes$ | async as ts" @fadeIn>
+                  <div class="header-container mb-4">
+                    <h3>Тип транспорта</h3>
+                  </div>
+                  <mat-button-toggle-group
+                    formControlName="transportCode"
+                    class="d-flex flex-md-row flex-column w-sm-100"
+                  >
+                    <mat-button-toggle *ngFor="let t of ts" [value]="t.code">
+                      <span class="px-5">{{ t.nameRu }}</span>
+                    </mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+              </div>
+              <div class="header-container mb-5">
+                <h3 *ngIf="sl == '1'" @fadeIn>Параметры транспорта</h3>
+                <h3 *ngIf="sl == '2'" @fadeIn>Параметры</h3>
+              </div>
+
+              <div *ngIf="sl == '1'" @fadeIn>
+                <div class="row justify-content-center">
+                  <div class="col-lg-6 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Наименование</mat-label>
+                      <input
+                        matInput
+                        formControlName="name"
+                        #name
+                        maxlength="200"
+                      />
+                      <mat-hint align="end">
+                        {{ name.value.length }} / 200
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row justify-content-center">
+                  <div class="col-lg-3 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Год выпуска</mat-label>
+                      <input matInput formControlName="year" type="number" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-3 col-12 mb-3" *ngIf="tl == '1'" @fadeIn>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Гос. номер</mat-label>
+                      <input
+                        matInput
+                        formControlName="govNumber"
+                        #govNumber
+                        maxlength="100"
+                      />
+                      <mat-hint align="end">
+                        {{ govNumber.value.length }} / 100
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-3 col-12 mb-3" *ngIf="tl == '1'" @fadeIn>
+                    <mat-form-field appearance="fill">
+                      <mat-label>№ св-ва о гос. регистрации</mat-label>
+                      <input
+                        matInput
+                        formControlName="registerNumber"
+                        #registerNumber
+                        maxlength="100"
+                      />
+                      <mat-hint align="end">
+                        {{ registerNumber.value.length }} / 100
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-3 col-12 mb-3" *ngIf="tl == '1'" @fadeIn>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Дата св-ва о гос. регистрации</mat-label>
+                      <input
+                        matInput
+                        formControlName="registerDate"
+                        [matDatepicker]="registerDatePicker"
+                      />
+                      <mat-datepicker #registerDatePicker></mat-datepicker>
+                      <mat-datepicker-toggle
+                        [for]="registerDatePicker"
+                        matSuffix
+                      ></mat-datepicker-toggle>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3" *ngIf="tl == '1'" @fadeIn>
+                    <mat-form-field appearance="fill">
+                      <mat-label>VIN</mat-label>
+                      <input
+                        matInput
+                        formControlName="vin"
+                        #vin
+                        maxlength="100"
+                      />
+                      <mat-hint align="end">
+                        {{ vin.value.length }} / 100
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-lg-3 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Марка</mat-label>
+                      <input
+                        matInput
+                        formControlName="mark"
+                        #mark
+                        maxlength="400"
+                      />
+                      <mat-hint align="end">
+                        {{ mark.value.length }} / 400
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-2 col-12 mb-3" *ngIf="tl == '1'" @fadeIn>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Цвет</mat-label>
+                      <input
+                        matInput
+                        formControlName="color"
+                        #color
+                        maxlength="50"
+                      />
+                      <mat-hint align="end">
+                        {{ color.value.length }} / 50
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-3 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Производитель</mat-label>
+                      <input
+                        matInput
+                        formControlName="company"
+                        #company
+                        maxlength="200"
+                      />
+                      <mat-hint align="end">
+                        {{ company.value.length }} / 200
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Страна производства</mat-label>
+                      <input
+                        matInput
+                        formControlName="countryCode"
+                        #countryCode
+                        maxlength="50"
+                      />
+                      <mat-hint align="end">
+                        {{ countryCode.value.length }} / 50
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="sl == '2'" @fadeIn>
+                <div class="row justify-content-center mb-3">
+                  <div class="col-lg-8 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Наименование БВУ</mat-label>
+                      <input
+                        matInput
+                        formControlName="bvu"
+                        maxlength="100"
+                        #bvu
+                      />
+                      <mat-hint align="end"
+                        >{{ bvu.value.length }} / 100</mat-hint
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row justify-content-center mb-3">
+                  <div class="col-lg-3 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Дата открытия счета</mat-label>
+                      <input
+                        matInput
+                        formControlName="depositDate"
+                        [matDatepicker]="depositDatepicker"
+                      />
+                      <mat-datepicker #depositDatepicker></mat-datepicker>
+                      <mat-datepicker-toggle
+                        [for]="depositDatepicker"
+                        matSuffix
+                      ></mat-datepicker-toggle>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-3 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Сумма на счете, тенге</mat-label>
+                      <input
+                        matInput
+                        formControlName="depositTotal"
+                        type="number"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6 col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Номер счета</mat-label>
+                      <input
+                        matInput
+                        formControlName="depositNumber"
+                        maxlength="200"
+                        #depositNumber
+                      />
+                      <mat-hint align="end"
+                        >{{ depositNumber.value.length }} / 200</mat-hint
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="fl == '3'" @fadeIn class="mt-5">
+              <div
+                class="row justify-content-center mb-3"
+                *ngIf="guaranteeTypes$ | async as gts"
+                @fadeIn
+              >
+                <div class="col-lg-8 col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Тип гарантии и поручительства</mat-label>
+                    <mat-select formControlName="guaranteeCode">
+                      <mat-option [value]="0">Не выбрано</mat-option>
+                      <mat-option *ngFor="let g of gts" [value]="g.code">{{
+                        g.nameRu
+                      }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row justify-content-center mb-3">
+                <div class="col-lg-4 col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Дата выдачи</mat-label>
+                    <input
+                      matInput
+                      formControlName="date"
+                      [matDatepicker]="datePicker"
+                    />
+                    <mat-datepicker #datePicker></mat-datepicker>
+                    <mat-datepicker-toggle
+                      [for]="datePicker"
+                      matSuffix
+                    ></mat-datepicker-toggle>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-lg-4 col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Срок действия, год(-а)</mat-label>
+                    <input matInput formControlName="validFor" type="number" />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div
+              class="row justify-content-center mt-3"
+              *ngIf="fl == '1' || (fl == '2' && sl != '2')"
+              @fadeIn
+            >
+              <div class="header-container my-3">
+                <h3>Стоимость обеспечения</h3>
+              </div>
+              <div class="col-lg-4 col-12">
+                <mat-form-field appearance="fill">
+                  <mat-label>Стоимость НОК, тенге</mat-label>
+                  <input
+                    [currencyInput]="nokSum().value"
+                    formControlName="nokSum"
+                    matInput
+                  />
+                </mat-form-field>
+              </div>
+              <div
+                class="col-lg-4 col-12"
+                *ngIf="fl == '1' && sl == '1'"
+                @fadeIn
+              >
+                <mat-form-field appearance="fill">
+                  <mat-label>Стоимость АСОН, тенге</mat-label>
+                  <input
+                    [currencyInput]="asonSum().value"
+                    readonly
+                    formControlName="asonSum"
+                    matInput
+                  />
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    type="button"
+                    (click)="requestAsonSum()"
+                    [class.access-readonly]="asonLoading$ | async"
+                  >
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  <mat-hint
+                    align="start"
+                    @fadeInOut
+                    *ngIf="asonLoading$ | async"
+                  >
+                    Загрузка...
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+              <div
+                class="col-lg-4 col-12"
+                *ngIf="fl == '1' && sl == '1' && (displayExpertSum$ | async)"
+                @fadeIn
+              >
+                <mat-form-field appearance="fill">
+                  <mat-label>Экспертная стоимость, тенге</mat-label>
+                  <input
+                    [currencyInput]="expertSum().value"
+                    formControlName="expertSum"
+                    matInput
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="fl == '1' || (fl == '2' && sl != '2')" @fadeIn>
+              <div class="header-container my-3">
+                <h3>Отчет об оценке</h3>
+              </div>
+
+              <div class="row justify-content-center mb-4">
+                <div class="col-lg-4 col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Наименование НОК</mat-label>
+                    <input formControlName="nokName" matInput />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div
+                class="row justify-content-center mb-4"
+                *ngIf="noks$ | async as noks"
+                @fadeIn
+              >
+                <div class="col-lg-4 col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Наименование НОК</mat-label>
+                    <mat-select formControlName="dicNokId">
+                      <mat-option [value]="null">Не выбрано</mat-option>
+                      <mat-option *ngFor="let n of noks" [value]="n.id">{{
+                        n.nameRu
+                      }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-4 col-12">
+                  <mat-slide-toggle
+                    [disabled]="true"
+                    formControlName="agreement"
+                    >Соглашение о сотрудничестве</mat-slide-toggle
+                  >
+                </div>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="header-container mt-4">
+              <h3>Документы по обеспечению</h3>
+            </div>
+            <div class="my-3" *ngIf="files$ | async as files" @fadeInOut>
+              <bpm-application-files
+                [elevation]="false"
+                [fileUploadType]="data.id ? 'instant' : 'defer'"
+                [files]="files"
+                (deferredFileChange)="fileChange($event)"
+              ></bpm-application-files>
+            </div>
+
+            <button
+              type="button"
+              mat-flat-button
+              color="accent"
+              class="px-5 w-sm-100 mb-4"
+              (click)="documentDialog()"
+            >
+              Добавить документы
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button
+        mat-flat-button
+        color="primary"
+        class="px-5 ml-lg-auto w-sm-100"
+        type="submit"
+        [class.access-readonly]="saving$ | async"
+      >
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

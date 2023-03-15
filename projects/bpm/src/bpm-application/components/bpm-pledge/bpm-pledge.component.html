@@ -1,0 +1,110 @@
+<bpm-application [showSendButton]="false" [showinWorkButton]="false">
+  <div actions style="width: 100%; padding: 20px">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div>
+        <div class="header-container my-3">
+          <h3>Экспертиза залогового эксперта</h3>
+        </div>
+        <section>
+          <p *ngIf="user$ | async as user">
+            <strong>ФИО эксперта:</strong>
+            {{ user.lastName + " " + user.firstName + " " + user.middleName }}
+          </p>
+          <p>
+            <strong>Дата заключение:</strong>
+            {{ currentDate | date: "dd.MM.yyyy" }}
+          </p>
+        </section>
+
+        <div *ngIf="pledges$ | async as pl" formArrayName="pledges">
+          <div
+            class="row"
+            *ngFor="let item of pl; let i = index"
+            [formGroupName]="i"
+          >
+            <div style="width: 100%">
+              <div class="header-container my-3">
+                <h4>Обеспечение: {{ i + 1 }}</h4>
+              </div>
+              <div>
+                <p>{{ pl[i].name }}</p>
+                <p>{{ pl[i].address }}</p>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 col-12 mb-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Стоимость НОК, тенге</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="nokSum"
+                      [readonly]="true"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-6 col-12 mb-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Экспертная стоимость, тенге</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="expertSum"
+                      [readonly]="true"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-6 col-12 mb-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Стоимость залоговика, тенге</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="expertiseSum"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-6 col-12 mb-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Залоговая стоимость, тенге</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="finalSum"
+                      [readonly]="true"
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin: auto">
+          Общая залоговая стоимость, тенге:
+          <input matInput type="text" formControlName="finalSums" />
+        </div>
+        <div class="row" style="margin-top: 50px">
+          <div class="col-lg-12 col-12 mb-12 mb-lg-0 text-lg-center">
+            <mat-form-field appearance="fill">
+              <mat-label>Примечание</mat-label>
+              <textarea
+                matInput
+                placeholder="дополнительная информация"
+                formControlName="clientCommentRk"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <button
+          style="margin-top: 150px"
+          mat-flat-button
+          color="primary"
+          class="px-5 ml-lg-auto w-sm-100"
+          type="submit"
+          [class.access-readonly]="saving$ | async"
+        >
+          Отправить
+        </button>
+      </div>
+    </form>
+  </div>
+</bpm-application>

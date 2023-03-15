@@ -1,0 +1,61 @@
+@import "variables";
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.access-readonly {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.absolute-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.w-xs-100 {
+  @media screen and (max-width: $breakpoint-sm) {
+    width: 100%;
+  }
+}
+
+.w-sm-100 {
+  @media screen and (max-width: $breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.mh-300 {
+  min-height: 300px !important;
+}
+
+.mh-400 {
+  min-height: 400px !important;
+}
+
+.mh-600 {
+  min-height: 600px !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.underline {
+  text-decoration: underline;
+}

@@ -1,0 +1,30 @@
+<bpm-application [showSendButton]="false" [showinWorkButton]="false">
+  <div actions style="width: 100%">
+    <div class="header-container my-3">
+      <h3>Юрист начальник</h3>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div *ngIf="jurists$ | async as jurists">
+        <mat-form-field appearance="fill">
+          <mat-label>Специалист</mat-label>
+          <mat-select formControlName="JuristResultId">
+            <mat-option [value]="0">Не выбрано</mat-option>
+            <mat-option *ngFor="let j of jurists" [value]="j.userId">
+              {{ j.fullName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <button
+        style="margin-top: 150px"
+        type="button"
+        mat-flat-button
+        color="primary"
+        type="submit"
+      >
+        Отправить
+      </button>
+    </form>
+  </div>
+</bpm-application>

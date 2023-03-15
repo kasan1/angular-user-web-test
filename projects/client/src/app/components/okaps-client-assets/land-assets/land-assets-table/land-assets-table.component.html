@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="mat-elevation-z8 w-100"
+    >
+      <ng-container matColumnDef="landType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Наименование замельных угодий
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.landType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="square">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Площадь, га</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.square | amountConverter: "ru" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="ownershipType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Сведения о владении
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ownershipType }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Действия</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            color="primary"
+            class="m-1"
+            matTooltip="Редактировать"
+            aria-label="edit icon button"
+            (click)="editLandAssets(element.id)"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="accent"
+            class="my-1 mx-2"
+            matTooltip="Удалить"
+            aria-label="delete icon button"
+            (click)="removeLandAssets(element.id)"
+            [disabled]="isReadOnly"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <button
+      class="my-3 px-3"
+      mat-raised-button
+      color="primary"
+      aria-label="add accessory button"
+      (click)="addLandAssets()"
+      [disabled]="!canAdd || isReadOnly"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

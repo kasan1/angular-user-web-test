@@ -1,0 +1,603 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Полное наименование *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Полное наименование</mat-label>
+          <input formControlName="fullname" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" [formGroup]="form.get('address')">
+      <div class="col">
+        <p class="input-title">Адрес *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Юридический адрес</mat-label>
+          <input formControlName="register" matInput />
+        </mat-form-field>
+        <mat-checkbox formControlName="isDifferent" class="d-inline-block mb-3"
+          >Адрес отличается от фактического</mat-checkbox
+        >
+        <mat-form-field appearance="outline" *ngIf="isAddressDifferent.value">
+          <mat-label>Фактический адрес</mat-label>
+          <input formControlName="fact" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" [formGroup]="form.get('phone')">
+      <div class="col">
+        <p class="input-title">Телефон *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Рабочий номер</mat-label>
+          <input formControlName="work" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p>Факс</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Факс</mat-label>
+          <input formControlName="fax" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Электронная почта *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input formControlName="email" matInput />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">ИИН/БИН *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>ИИН/БИН</mat-label>
+          <input
+            formControlName="identification"
+            matInput
+            mask="000000000000"
+            [showMaskTyped]="true"
+            placeHolderCharacter="_"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Дата регистрации *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Дата регистрации</mat-label>
+          <input
+            matInput
+            [matDatepicker]="registeredDate"
+            formControlName="registeredDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="registeredDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #registeredDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Регион *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Регион</mat-label>
+          <mat-select formControlName="region">
+            <mat-option *ngFor="let region of regions" [value]="region">
+              {{ region.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Вид деятельности *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Вид деятельности</mat-label>
+          <mat-select formControlName="oked" multiple>
+            <mat-option *ngFor="let oked of okedTypes" [value]="oked.id">
+              {{ oked.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Налоговый режим *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Налоговый режим</mat-label>
+          <mat-select formControlName="taxTreatment">
+            <mat-option
+              *ngFor="let taxTreatment of taxTreatments"
+              [value]="taxTreatment"
+            >
+              {{ taxTreatment.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Субъект Предпринимательства *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Субъект Предпринимательства</mat-label>
+          <mat-select formControlName="subjectOfEntrepreneur">
+            <mat-option
+              *ngFor="let subjectOfEntrepreneur of subjectOfEntrepreneurs"
+              [value]="subjectOfEntrepreneur"
+            >
+              {{ subjectOfEntrepreneur.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <p class="input-title">Организационно-правовая форма *</p>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Организационно-правовая форма</mat-label>
+          <mat-select formControlName="legalForm">
+            <mat-option
+              *ngFor="let legalForm of legalForms"
+              [value]="legalForm"
+            >
+              {{ legalForm.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf="isJuridical">
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Форма собственности *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Форма собственности</mat-label>
+            <mat-select formControlName="ownershipForm">
+              <mat-option
+                *ngFor="let ownershipForm of ownerShipFormTypes"
+                [value]="ownershipForm"
+              >
+                {{ ownershipForm.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p>Курирующее ведомство, холдинг или материнская компания</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Полное наименование</mat-label>
+            <input formControlName="parent" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isPhysical">
+      <div class="row" [formGroup]="form.get('registrationDocument')">
+        <div class="col">
+          <p class="input-title">
+            Номер и дата свидетельства о регистрации (перерегистрации) *
+          </p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Номер</mat-label>
+            <input formControlName="number" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Кем выдано</mat-label>
+            <input formControlName="issuer" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Дата выдачи</mat-label>
+            <input
+              matInput
+              [matDatepicker]="registrationDocumentDate"
+              formControlName="date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="registrationDocumentDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #registrationDocumentDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" [formGroup]="form.get('identificationDocument')">
+        <div class="col">
+          <p class="input-title">
+            Номер и дата регистрации (перерегистрации) *
+          </p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Номер</mat-label>
+            <input formControlName="number" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Кем выдано</mat-label>
+            <input formControlName="issuer" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Дата выдачи</mat-label>
+            <input
+              matInput
+              [matDatepicker]="identificationDocumentDate"
+              formControlName="date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="identificationDocumentDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #identificationDocumentDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider class="my-3"></mat-divider>
+    <mat-checkbox formControlName="hasBeneficiary"
+      >Наличие бенефициара</mat-checkbox
+    >
+    <section
+      *ngIf="hasBeneficiary.value"
+      [formGroup]="form.get('beneficiary')"
+      class="mt-4"
+    >
+      <div class="alert alert-primary" role="alert">
+        <div class="d-flex justify-content-start align-items-center">
+          <mat-icon mat-list-icon>info</mat-icon>
+          <div class="ml-3">
+            Если руководитель не является бенефициаром, то вам необходимо
+            заполнить форму ниже.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="input-title">ФИО *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>ФИО</mat-label>
+            <input formControlName="fullname" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Юридический адрес *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Юридический адрес</mat-label>
+            <input formControlName="address" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Гражданство *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Страна</mat-label>
+            <mat-select formControlName="country">
+              <mat-option *ngFor="let country of countries" [value]="country">
+                {{ country.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" *ngIf="beneficiaryIsResident">
+        <div class="col">
+          <p class="input-title">ИИН *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>ИИН</mat-label>
+            <input
+              formControlName="identifier"
+              mask="000000000000"
+              [showMaskTyped]="true"
+              matInput
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        class="row"
+        [formGroup]="form.get('beneficiary').get('identificationDocument')"
+      >
+        <div class="col">
+          <p class="input-title">Паспортные данные *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Номер</mat-label>
+            <input formControlName="number" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Кем выдано</mat-label>
+            <input formControlName="issuer" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Дата выдачи</mat-label>
+            <input
+              matInput
+              [matDatepicker]="beneficiaryRegistrationDocumentDate"
+              formControlName="date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="beneficiaryRegistrationDocumentDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              #beneficiaryRegistrationDocumentDate
+            ></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </section>
+
+    <mat-divider class="my-3"></mat-divider>
+    <mat-checkbox formControlName="hasRepresentative"
+      >Наличие представителя</mat-checkbox
+    >
+    <section
+      *ngIf="hasRepresentative.value"
+      [formGroup]="form.get('representative')"
+      class="mt-4"
+    >
+      <div class="row">
+        <div class="col">
+          <p class="input-title">ФИО *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>ФИО</mat-label>
+            <input formControlName="fullname" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Юридический адрес *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Юридический адрес</mat-label>
+            <input formControlName="address" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <p class="input-title">Гражданство *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Страна</mat-label>
+            <mat-select formControlName="country">
+              <mat-option *ngFor="let country of countries" [value]="country">
+                {{ country.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" *ngIf="representativeIsResident">
+        <div class="col">
+          <p class="input-title">ИИН *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>ИИН</mat-label>
+            <input
+              formControlName="identifier"
+              mask="000000000000"
+              [showMaskTyped]="true"
+              matInput
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        class="row"
+        [formGroup]="form.get('representative').get('identificationDocument')"
+      >
+        <div class="col">
+          <p class="input-title">Паспортные данные *</p>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Номер</mat-label>
+            <input formControlName="number" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Кем выдано</mat-label>
+            <input formControlName="issuer" matInput />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Дата выдачи</mat-label>
+            <input
+              matInput
+              [matDatepicker]="representativeRegistrationDocumentDate"
+              formControlName="date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="representativeRegistrationDocumentDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              #representativeRegistrationDocumentDate
+            ></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </section>
+
+    <mat-divider class="my-3"></mat-divider>
+    <div class="row mb-4">
+      <div class="col-12">
+        <p>Контактные лица</p>
+      </div>
+      <div class="col-12">
+        <ng-container formArrayName="contacts">
+          <div *ngFor="let _ of contacts.controls; index as i">
+            <div class="row" [formGroupName]="i">
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>ФИО</mat-label>
+                  <input matInput formControlName="fullname" />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Адрес проживания</mat-label>
+                  <input matInput formControlName="address" />
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Телефон</mat-label>
+                  <input matInput formControlName="phone" />
+                </mat-form-field>
+              </div>
+              <div class="col-1">
+                <button
+                  mat-icon-button
+                  color="accent"
+                  class="my-1 mx-2"
+                  matTooltip="Удалить"
+                  aria-label="delete icon button"
+                  (click)="removeContact(i)"
+                  [disabled]="isReadOnly"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-12">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="addContact()"
+          [disabled]="isReadOnly"
+        >
+          Добавить
+        </button>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-12">
+        <p>Банковские счета</p>
+      </div>
+      <div class="col-12">
+        <ng-container formArrayName="bankAccounts">
+          <div *ngFor="let _ of bankAccounts.controls; index as i">
+            <div class="row" [formGroupName]="i">
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>БИК</mat-label>
+                  <input matInput formControlName="bic" />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Номер</mat-label>
+                  <input matInput formControlName="number" />
+                </mat-form-field>
+              </div>
+              <div class="col-1">
+                <button
+                  mat-icon-button
+                  color="accent"
+                  class="my-1 mx-2"
+                  matTooltip="Удалить"
+                  aria-label="delete icon button"
+                  (click)="removeBankAccount(i)"
+                  [disabled]="isReadOnly"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-12">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="addBankAccount()"
+          [disabled]="isReadOnly"
+        >
+          Добавить
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

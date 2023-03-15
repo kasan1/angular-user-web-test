@@ -1,0 +1,45 @@
+@import "variables";
+
+//MAT_STEPPER_MODULE
+div.mat-horizontal-content-container {
+  padding-bottom: 0;
+}
+
+div.mat-vertical-content-container {
+  margin-left: 0;
+}
+
+//MAT_FORMFIELD_MODULE
+mat-form-field {
+  width: 100%;
+}
+
+//MAT_SIDENAV_MODULE
+mat-drawer {
+  @media screen and (max-width: $breakpoint-sm) {
+    width: 100%;
+  }
+}
+
+mat-drawer-content {
+  display: flex !important;
+  flex-direction: column;
+}
+
+//MAT_MENU_MODULE
+.mat-menu-content {
+  padding: 0 !important;
+}
+
+.mat-tab-label.mat-tab-disabled {
+  color: black !important;
+}
+
+.mat-slider-horizontal .mat-slider-thumb-label {
+  right: -28px !important;
+  top: -70px !important;
+}
+.mat-slider-thumb-label {
+  width: 56px !important;
+  height: 56px !important;
+}

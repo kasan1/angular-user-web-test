@@ -1,0 +1,37 @@
+<nav class="d-flex flex-column h-100" *ngIf="locale$ | async as locale">
+  <ng-content></ng-content>
+  <div class="nav-item mt-4">
+    <a routerLink="/" mat-button>{{ locale.homePage }}</a>
+  </div>
+  <div @fadeIn *ngIf="user$ | async as user; else unauthorized">
+    <div class="nav-item mt-4">
+      <a routerLink="/products" mat-button>{{ locale.applications }}</a>
+    </div>
+    <div class="nav-item mt-4">
+      <button mat-button type="button" (click)="logout()">
+        {{ locale.logout }}
+      </button>
+    </div>
+  </div>
+
+  <ng-template #unauthorized>
+    <div @fadeIn>
+      <div class="nav-item mt-4">
+        <button id="login" type="button" (click)="login()" mat-button>
+          {{ locale.login }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="nav-item mt-auto">
+    <mat-button-toggle-group
+      *ngIf="currentLocale$ | async as cl"
+      [value]="cl"
+      (change)="switchLocale($event)"
+    >
+      <mat-button-toggle value="ru">RU</mat-button-toggle>
+      <mat-button-toggle value="kz">KZ</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</nav>

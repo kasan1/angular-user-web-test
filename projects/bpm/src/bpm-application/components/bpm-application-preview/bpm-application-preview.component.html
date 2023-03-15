@@ -1,0 +1,14 @@
+<bpm-application-base>
+  <div class="ml-xl-auto" actions>
+    <button
+      class="w-sm-100 px-5"
+      type="button"
+      mat-flat-button
+      color="accent"
+      (click)="startApplication()"
+      [class.access-readonly]="loading$ | async"
+    >
+      Запуск заявки
+    </button>
+  </div>
+</bpm-application-base>

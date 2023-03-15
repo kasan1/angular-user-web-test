@@ -1,0 +1,13 @@
+table.table-v1 {
+  tr:not(.mat-header-row) {
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#fff, 10%);
+    }
+  }
+
+  td {
+    line-height: 1.15;
+  }
+}

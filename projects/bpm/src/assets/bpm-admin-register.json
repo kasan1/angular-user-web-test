@@ -1,0 +1,34 @@
+{
+  "ru": {
+    "title": "Регистрация нового пользователя",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "passwordHint": "Пароли не совпадают",
+    "iin": "ИИН",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "middleName": "Отчество",
+    "phone": "Номер телефона",
+    "position": "Должность",
+    "organization": "Филиал",
+    "notSelected": "Не выбрано",
+    "registerUser": "Регистрация пользователя"
+  },
+  "kz": {
+    "title": "Регистрация нового пользователя [kz]",
+    "email": "Email [kz]",
+    "password": "Пароль [kz]",
+    "confirmPassword": "Подтвердите пароль [kz]",
+    "passwordHint": "Пароли не совпадают [kz]",
+    "iin": "ИИН [kz]",
+    "firstName": "Имя [kz]",
+    "lastName": "Фамилия [kz]",
+    "middleName": "Отчество [kz]",
+    "phone": "Номер телефона [kz]",
+    "position": "Должность [kz]",
+    "organization": "Филиал [kz]",
+    "notSelected": "Не выбрано [kz]",
+    "registerUser": "Регистрация пользователя [kz]"
+  }
+}

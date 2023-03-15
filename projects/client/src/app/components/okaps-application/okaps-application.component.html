@@ -1,0 +1,51 @@
+<div class="mh-400">
+  <mat-tab-group
+    [selectedIndex]="selected.value"
+    (selectedIndexChange)="selected.setValue($event)"
+    animationDuration="1000ms"
+  >
+    <mat-tab #tab label="Сведения о клиенте">
+      <app-okaps-client-details
+        [loanApplicationId]="loanId"
+        [openNextTab]="openNextTab"
+      ></app-okaps-client-details>
+    </mat-tab>
+    <mat-tab
+      #tab
+      *ngIf="assetsTabVisible"
+      label="Активы"
+      [disabled]="!assetsTabEnabled"
+    >
+      <app-okaps-client-assets
+        *ngIf="assetsTabEnabled"
+        [loanApplicationId]="loanId"
+        [openNextTab]="openNextTab"
+      ></app-okaps-client-assets>
+    </mat-tab>
+    <mat-tab
+      #tab
+      *ngIf="extraDetailsVisible"
+      label="Дополнительная информация"
+      [disabled]="!extraDetailsTabEnabled"
+    >
+      <app-okaps-client-extra-details
+        *ngIf="extraDetailsTabEnabled"
+        [loanApplicationId]="loanId"
+        [openNextTab]="openNextTab"
+      ></app-okaps-client-extra-details>
+    </mat-tab>
+    <mat-tab #tab label="Техника" [disabled]="!lizingTabEnabled">
+      <app-okaps-lizing
+        *ngIf="lizingTabEnabled"
+        [loanApplicationId]="loanId"
+        [openNextTab]="openNextTab"
+      ></app-okaps-lizing>
+    </mat-tab>
+    <mat-tab #tab label="Подписание" [disabled]="!signTabEnabled">
+      <app-okaps-application-sign
+        *ngIf="signTabEnabled"
+        [loanApplicationId]="loanId"
+      ></app-okaps-application-sign>
+    </mat-tab>
+  </mat-tab-group>
+</div>

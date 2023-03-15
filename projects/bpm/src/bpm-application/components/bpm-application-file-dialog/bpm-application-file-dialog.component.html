@@ -1,0 +1,93 @@
+<div class="condensed">
+  <app-dialog-title [title]="'Список документов'"></app-dialog-title>
+
+  <div mat-dialog-content class="pt-2 mb-5" style="max-height: 75vh">
+    <div [formGroup]="fileForm">
+      <div
+        formArrayName="items"
+        *ngFor="let item of items().controls; let i = index"
+      >
+        <div [formGroupName]="i" class="mb-2">
+          <div class="row">
+            <div class="col-lg-3 col-12 px-0 px-lg-2">
+              <mat-form-field appearance="fill">
+                <mat-label>Наименование</mat-label>
+                <mat-select formControlName="code">
+                  <mat-option [value]="0">Не выбрано</mat-option>
+                  <mat-option *ngFor="let c of codes" [value]="c.code">{{
+                    c.nameRu
+                  }}{{ c.title}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-2 col-md-7 col-12 pr-md-2 pl-0 px-lg-2">
+              <mat-form-field appearance="fill">
+                <mat-label>Номер</mat-label>
+                <input formControlName="number" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-2 col-md-5 col-12 pl-md-2 pr-0 px-lg-2">
+              <mat-form-field appearance="fill">
+                <mat-label>Дата выдачи</mat-label>
+                <input
+                  formControlName="date"
+                  matInput
+                  [matDatepicker]="picker"
+                />
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4 col-12 pb-3 px-0 px-lg-2">
+              <bpm-deferred-file-upload
+                [page]="data.page"
+                (fileChange)="fileChange(i, $event)"
+              >
+              </bpm-deferred-file-upload>
+            </div>
+            <div class="col-12 col-lg-1 pb-3 d-flex px-0 px-lg-2">
+              <button
+                class="ml-auto ml-lg-3 mt-2"
+                mat-mini-fab
+                type="button"
+                color="accent"
+                (click)="deleteItem(i)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <mat-slide-toggle class="mt-3 mb-4" formControlName="isOriginal"
+            >Оригинал</mat-slide-toggle
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="d-flex">
+    <button
+      type="button"
+      class="w-sm-100 px-5 mb-3 mb-md-0"
+      mat-flat-button
+      color="primary"
+      (click)="saveFiles()"
+      [class.access-readonly]="loading"
+    >
+      Сохранить
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      color="accent"
+      class="px-5 ml-0 ml-md-auto w-sm-100"
+      (click)="addItem()"
+      [class.access-readonly]="loading"
+    >
+      Добавить документ
+    </button>
+  </div>
+</div>

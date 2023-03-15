@@ -1,0 +1,337 @@
+<div class="condensed">
+  <app-dialog-title title="Документы"> </app-dialog-title>
+
+  <div mat-dialog-content style="max-height: 80vh" class="mh-300">
+    <div class="absolute-container" *ngIf="loading$ | async">
+      <app-loader></app-loader>
+    </div>
+    <div *ngIf="app$ | async as x" @fadeIn>
+      <mat-divider class="mb-4"></mat-divider>
+      <section id="firstDocument">
+        <div class="d-flex flex-column mb-4">
+          <span class="ml-auto">
+            АО «Фонд финансовой поддержки сельского хозяйства»
+          </span>
+          <span class="ml-auto mt-2">от {{ x.client.fullName }}</span>
+        </div>
+
+        <div class="header-container">
+          <h2 class="mb-0">ЗАЯВЛЕНИЕ</h2>
+        </div>
+        <div class="header-container">
+          <h3>на получение займа</h3>
+        </div>
+
+        <p style="line-height: 1.5">
+          Настоящим
+          <span> {{ x.client.fullName }}</span>
+          (далее – Заявитель) просит АО «Фонд финансовой поддержки сельского
+          хозяйства» произвести финансирование в форме займа по кредитному
+          продукту {{ x.application.product || "Не указано" }}
+        </p>
+        <p>Сумма займа: {{ x.condition.amount | formatCurrency }} &#8376;</p>
+        <p>
+          Срок займа:
+          {{
+            x.condition.duration ? x.condition.duration + " мес." : "Не указано"
+          }}
+        </p>
+        <p>Ставка вознаграждения: {{ x.percent }}%</p>
+        <p>Цель получения займа: {{ x.application.purpose || "Не указано" }}</p>
+        <p>
+          Льготный период по погашению ОД:
+          {{
+            x.condition.periodOd ? x.condition.periodOd + " мес." : "Не указано"
+          }}
+        </p>
+        <p>
+          Льготный период по вознаграждению:
+          {{
+            x.condition.periodPercent
+              ? x.condition.periodPercent + " мес."
+              : "Не указано"
+          }}
+        </p>
+        <p>Периодичность погашения ОД: {{ period(x.condition.paymentOd) }}</p>
+        <p>
+          Периодичность погашения вознаграждения:
+          {{ period(x.condition.paymentPercent) }}
+        </p>
+        <p>Метод погашения: {{ method(x.condition.method) }}</p>
+        <p class="my-5" style="line-height: 1.5">
+          Гарантирую своевременное исполнение обязательств перед «{{
+            x.client.filial || "Не указано"
+          }}» филиалом АО «Фонд финансовой поддержки сельского хозяйства.
+        </p>
+        <p class="mb-4">
+          Дата получения заявления: {{ currentDate() | date: "dd.MM.yyyy" }}
+        </p>
+        <p style="line-height: 1.5">
+          Заявитель настоящим подтверждает и гарантирует, что вся информация,
+          содержащаяся в Заявлении и прилагаемых к ней документах, является
+          подлинной и соответствует истинным фактам. Проставляя свою подпись,
+          Заявитель тем самым подтверждает, что ознакомлен с содержанием
+          настоящего Заявления, условиями финансирования и требованиями к
+          проекту полностью понимает и принимает их.
+        </p>
+        <p style="text-decoration: underline" class="mt-5">
+          Подписано электронной цифровой подписью
+        </p>
+      </section>
+
+      <mat-divider class="my-5"></mat-divider>
+
+      <section id="secondDocument">
+        <div class="header-container" style="page-break-before: always">
+          <h2 class="mb-0">АНКЕТА</h2>
+        </div>
+        <div class="header-container">
+          <h3>на получение займа</h3>
+        </div>
+
+        <p>
+          ФИО:
+          <span> {{ x.client.fullName }}</span>
+        </p>
+        <p>
+          Семейное положение:
+          <span>{{ maritalStatus(x.client.maritalStatus) }}</span>
+        </p>
+        <p>
+          Статус заемщика:
+          <span>{{ x.client.clientType || "Не указано" }}</span>
+        </p>
+        <p>
+          Вид деятельности:
+          <span>{{ x.client.companyActivity || "Не указано" }}</span>
+        </p>
+        <p>
+          Адрес регистрации:
+          <span style="line-height: 1.5">{{
+            x.client.companyAddress || "Не указано"
+          }}</span>
+        </p>
+        <p style="margin-bottom: 100px">
+          Информация о наличии необходимого помещения/построек для содержания
+          животных:
+        </p>
+
+        <div class="my-3">
+          <h3>ОБЕСПЕЧЕНИЕ:</h3>
+        </div>
+
+        <div
+          class="mb-5"
+          *ngIf="holdings$ | async as hs; else noHoldings"
+          @fadeIn
+        >
+          <app-table
+            [position]="false"
+            [table]="hs"
+            [selectable]="false"
+            [overflow]="false"
+          ></app-table>
+        </div>
+        <ng-template #noHoldings>
+          <p class="mt-4 mb-5">Обеспечения не найдено.</p>
+        </ng-template>
+
+        <p style="margin-bottom: 100px; line-height: 1.5">
+          Дополнительная информация о месте расположения бизнеса и/или где будет
+          расположен бизнес: (наличие коммуникаций, расстояние от города,
+          расстояние от места жительства)
+        </p>
+
+        <p class="my-3" style="line-height: 1.5">
+          Я подтверждаю свою правоспособность и дееспособность, а также
+          достоверность предоставленных мною сведений в настоящей анкете. Я не
+          возражаю против проверки Фондом указанных в анкете сведений.
+        </p>
+
+        <p class="my-5">{{ currentDate() | date: "dd.MM.yyyy" }}</p>
+
+        <p class="my-3"><i>Примечание:</i></p>
+        <p class="my-3" style="line-height: 1.5">
+          <i>
+            Если при заполнении данной анкеты клиентом будут сообщены
+            недостоверные данные, Фонд вправе отказать ему в предоставлении
+            займа в любое время.</i
+          >
+        </p>
+        <p style="text-decoration: underline" class="mt-5">
+          Подписано электронной цифровой подписью
+        </p>
+      </section>
+
+      <ng-container *ngIf="x.application.isAnimalPurpose">
+        <mat-divider class="my-5"></mat-divider>
+
+        <section id="thirdDocument">
+          <div class="header-container" style="page-break-before: always">
+            <h2>БИЗНЕС-ПЛАН</h2>
+          </div>
+
+          <p>
+            <strong
+              >{{ x.application.product || "Цель займа не указана" }},
+              {{
+                x.application.activity || "Вид деятельности не указан"
+              }}</strong
+            >
+          </p>
+
+          <h3 class="my-4">1. Общие сведения о заемщике</h3>
+          <p>ФИО заемщика: {{ x.client.fullName || "Не указано" }}</p>
+          <p>
+            Адрес регистрации:
+            {{ x.client.registrationAddressRu || "Не указано" }}
+          </p>
+          <p>ИИН/БИН: {{ x.client.iin || "Не указано" }}</p>
+          <p *ngIf="x.client.clientType" @fadeIn>
+            Вид деятельности:
+            {{ x.client.clientType }}
+            {{ x.client.companyName || "Не указано" }},
+            {{ x.client.companyActivity || "Не указано" }}
+          </p>
+          <p>
+            № удостоверения личности:
+            {{ x.client.documentNumber || "Не указано" }}
+          </p>
+          <p>
+            Дата рождения:
+            {{
+              x.client.birthDate
+                ? (x.client.birthDate | date: "dd.MM.yyyy")
+                : "Не указано"
+            }}
+          </p>
+          <p>Место рождения: {{ x.client.birthPlaceRu || "Не указано" }}</p>
+          <p>Семейное положение: {{ maritalStatus(x.client.maritalStatus) }}</p>
+          <p>Количество детей: {{ x.client.childrenCount || "Не указано" }}</p>
+          <p>Контактные данные: {{ contacts(x.client) }}</p>
+
+          <h3 class="my-4">
+            2. Сумма запрашиваемого займа (тенге):
+            {{
+              x.condition.amount
+                ? (x.condition.amount | formatCurrency)
+                : "Не указано"
+            }}
+          </h3>
+
+          <h3 class="my-4">
+            3. Срок запрашиваемого займа:
+            {{
+              x.condition.duration
+                ? x.condition.duration + " мес."
+                : "Не указано"
+            }}
+          </h3>
+
+          <h3 class="my-4">
+            4. Ставка вознаграждения:
+            {{ x.percent ? x.percent + "%" : "Не указано" }}
+          </h3>
+
+          <h3 class="my-4" style="line-height: 1.5">
+            5. График погашения процентов и основной суммы займа: основной долг
+            – равными долями (диференцированный).
+          </h3>
+
+          <h3 class="my-4">
+            6. Льготный период: ОД -24 мес. Вознаграждение – 9 месяцев
+          </h3>
+
+          <h3 class="my-4">7. Залоговое обеспечение:</h3>
+          <div
+            class="mb-5"
+            *ngIf="holdings$ | async as hs; else noHoldings"
+            @fadeIn
+          >
+            <app-table
+              [position]="false"
+              [table]="hs"
+              [selectable]="false"
+              [overflow]="false"
+            ></app-table>
+          </div>
+          <ng-template #noHoldings>
+            <p class="mb-5">Обеспечения не найдено.</p>
+          </ng-template>
+
+          <h3 class="my-4">8. Кредитная история:</h3>
+          <p>
+            - Сумма:
+            {{ x.annualPay ? (x.annualPay | formatCurrency) : "отсутствует" }}
+          </p>
+        </section>
+      </ng-container>
+
+      <mat-divider class="my-5"></mat-divider>
+
+      <section id="fourthDocument">
+        <div class="header-container" style="page-break-before: always">
+          <h2 class="mb-0">Опись принятых документов</h2>
+        </div>
+        <div class="header-container mb-5">
+          <h3>
+            по кредитной заявке №{{ x.application.regNumber }} от
+            {{ x.application.createdDate | date: "dd.MM.yyyy" }}
+          </h3>
+        </div>
+
+        <h3>
+          Дата приема заявки:
+          {{ x.application.createdDate | date: "dd.MM.yyyy" }}
+        </h3>
+        <h3>ИИН клиента: {{ x.client.iin }}</h3>
+        <h3>ФИО клиента: {{ x.client.fullName }}</h3>
+
+        <p class="mt-5 mb-4">
+          Приняты следующие документы для рассмотрения заявки на кредитование:
+        </p>
+
+        <div *ngIf="files$ | async as files; else noFiles" @fadeIn>
+          <app-table
+            [table]="files"
+            [selectable]="false"
+            [overflow]="false"
+          ></app-table>
+        </div>
+        <ng-template #noFiles>
+          <p>Документов не найдено.</p>
+        </ng-template>
+
+        <p class="mt-5 mb-4">ФИО кредитного менеджера:</p>
+        <p>Принял: _________________________________</p>
+        <pre><p>                            (подпись)</p></pre>
+
+        <p class="mt-5 mb-4">ФИО клиента: {{ x.client.fullName }}</p>
+        <p>Предоставил: ____________________________</p>
+        <pre><p>                            (подпись)</p></pre>
+
+        <p class="mt-5">
+          <strong>Важно!</strong> Вы можете отслеживать процесс рассмотрения
+          заявки в личном кабинете по адресу:
+          <strong>https://online.fagri.kz</strong>, дополнительно по всем
+          возникающим вопросам можете обращаться по телефону горячей линии:
+          <strong>8 -800-080-89-87</strong>
+        </p>
+      </section>
+
+      <mat-divider class="my-5"></mat-divider>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button
+      mat-flat-button
+      color="accent"
+      type="button"
+      class="px-5 w-sm-100"
+      (click)="printFiles()"
+    >
+      Печать
+    </button>
+  </div>
+</div>

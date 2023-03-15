@@ -1,0 +1,379 @@
+<div *ngIf="!isLoading">
+  <div *ngIf="loanApplicationId === null">
+    <div class="top-menu" *ngIf="loanType != null">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <mat-button-toggle-group
+              [value]="loanType"
+              (change)="setLoanType($event.value)"
+              class="w-100"
+            >
+              <mat-button-toggle value="Lizing" class="top-menu-item"
+                >ПРИОБРЕТЕНИЕ ТЕХНИКИ (ЛИЗИНГ)</mat-button-toggle
+              >
+              <mat-button-toggle value="Credit" class="top-menu-item"
+                >ПОПОЛНЕНИЕ ОБОРОТНЫХ СРЕДСТВ (КРЕДИТОВАНИЕ)</mat-button-toggle
+              >
+            </mat-button-toggle-group>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div
+              *ngIf="loanType == LoanTypeEnum.Lizing && techCondition != null"
+            >
+              <mat-button-toggle-group
+                [value]="techCondition"
+                (change)="setTechCondition($event.value)"
+                class="w-100"
+              >
+                <mat-button-toggle value="New" class="top-menu-item">
+                  НОВАЯ ТЕХНИКА
+                </mat-button-toggle>
+                <mat-button-toggle value="Used" class="top-menu-item">
+                  ТЕХНИКА Б/У (ВТОРИЧНЫЙ ЛИЗИНГ)
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </div>
+          <div class="col"></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="centered-menu"
+      *ngIf="
+        loanType == null ||
+        (loanType == LoanTypeEnum.Lizing && techCondition == null)
+      "
+    >
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 text-center">
+            <div class="row">
+              <div class="col">
+                <button
+                  class="centered-menu-item"
+                  (click)="setLoanType(LoanTypeEnum.Lizing)"
+                  *ngIf="loanType == null"
+                  mat-raised-button
+                  matTooltip="Лизинг - вид финансовых услуг, форма финансовой аренды для приобретения основных средств предприятиями и других товаров физическими и юридическими лицами."
+                >
+                  ПРИОБРЕТЕНИЕ ТЕХНИКИ (ЛИЗИНГ)
+                </button>
+                <button
+                  class="centered-menu-item"
+                  matTooltip="сельскохозяйственное техническое оборудование, не бывшее в употребление  и в заводском первоначальном состоянии"
+                  (click)="setTechCondition(TechConditionEnum.New)"
+                  *ngIf="loanType == LoanTypeEnum.Lizing"
+                  mat-raised-button
+                >
+                  НОВАЯ ТЕХНИКА
+                </button>
+              </div>
+              <div class="col">
+                <button
+                  class="centered-menu-item"
+                  matTooltip="Кредитование — система взаимоотношений между сторонами, она подразумевает предоставление одной стороной (кредитором) другой (заемщику) определенной суммы средств, которая должна быть возвращена на протяжении оговоренного срока."
+                  (click)="setLoanType(LoanTypeEnum.Credit)"
+                  *ngIf="loanType == null"
+                  mat-raised-button
+                >
+                  ПОПОЛНЕНИЕ ОБОРОТНЫХ СРЕДСТВ <br />
+                  (КРЕДИТОВАНИЕ)
+                </button>
+                <button
+                  class="centered-menu-item"
+                  matTooltip="
+                    сельскохозяйственное техническое оборудование бывшее в употреблении короткий период времени
+                    "
+                  (click)="setTechCondition(TechConditionEnum.Used)"
+                  *ngIf="loanType == LoanTypeEnum.Lizing"
+                  mat-raised-button
+                >
+                  ТЕХНИКА Б/У (ВТОРИЧНЫЙ ЛИЗИНГ)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="loanType == LoanTypeEnum.Credit" class="my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-md-0"
+            >
+              <div class="card-header">Ставка</div>
+              <div class="card-body">
+                <h5 class="card-title">17% годовых</h5>
+                <p class="card-text">
+                  с учетом субсидирования ставка для клиента - 12% годовых
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-md-0"
+            >
+              <div class="card-header">Эффективная ставка вознаграждения</div>
+              <div class="card-body">
+                <h5 class="card-title">ОТ 17% ГОДОВЫХ</h5>
+                <p class="card-text">ОТ 17% ГОДОВЫХ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-md-0"
+            >
+              <div class="card-header">СРОК</div>
+              <div class="card-body">
+                <h5 class="card-title">КРЕДИТНАЯ ЛИНИЯ ДО 3 ЛЕТ</h5>
+                <p class="card-text">
+                  Транш в рамках кредитной линии / целевой кредит до 1 года
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-md-0"
+            >
+              <div class="card-body">
+                <h5 class="card-title">ОБЕСПЕЧЕНИЕ</h5>
+                <p class="card-text">ТРЕБУЕТСЯ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-sm-0"
+            >
+              <div class="card-body">
+                <h5 class="card-title">ЛЬГОТНЫЙ ПЕРИОД</h5>
+                <p class="card-text">ОТСУТСТВУЕТ</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mt-5">
+              <img src="/assets/images/credit-rus.png" alt="Кредит" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="
+        loanType == LoanTypeEnum.Lizing &&
+        techCondition == TechConditionEnum.Used
+      "
+      class="my-5"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="mt-5">
+              <img
+                src="/assets/images/vtorichnyy-lizing-rus.png"
+                alt="Вторичный лизинг"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-12 col-md">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-sm-0"
+            >
+              <div class="card-header">Ставка</div>
+              <div class="card-body">
+                <h5 class="card-title">17% годовых</h5>
+                <p class="card-text">
+                  Размер ставки вознаграждения по договору вторичного лизинга не
+                  превышает размер ставки по первичному договору лизинга
+                </p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-sm-0"
+            >
+              <div class="card-header">Срок</div>
+              <div class="card-body">
+                <p class="card-text">до 7 лет</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-sm-0"
+            >
+              <div class="card-header">Аванс</div>
+              <div class="card-body">
+                <h5 class="card-title">от 12%</h5>
+                <p class="card-text">от стоимости предмета лизинга</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-sm-0"
+            >
+              <div class="card-header">ОБЕСПЕЧЕНИЕ</div>
+              <div class="card-body">
+                <p class="card-text">Не ТРЕБУЕТСЯ</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col">
+            <div
+              class="card text-white bg-secondary p-3 text-center mb-3 mb-sm-0"
+            >
+              <div class="card-header">ЛЬГОТНЫЙ ПЕРИОД</div>
+              <mat-divider></mat-divider>
+              <div class="card-body">
+                <p class="card-text">ОТСУТСТВУЕТ</p>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <div
+      *ngIf="
+        loanType == LoanTypeEnum.Credit ||
+        (loanType == LoanTypeEnum.Lizing &&
+          techCondition == TechConditionEnum.Used)
+      "
+      class="mb-3"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h3>
+              Для подачи заявки Вам необходимо обратиться в ближайший к Вам
+              филиал/отделение АО «КазАгроФинанс»
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="my-4"
+    *ngIf="
+      loanType == LoanTypeEnum.Lizing && techCondition == TechConditionEnum.New
+    "
+  >
+    <div *ngFor="let contractId of lizingContracts; let i = index">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h3 class="mb-4 ml-2 contract-title uppercase">
+              Договор №{{ i + 1 }}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <app-okaps-lizing-form
+        [id]="contractId"
+        [maxPrice]="MAX_LOAN_SUM"
+      ></app-okaps-lizing-form>
+
+      <app-okaps-lizing-table
+        [id]="contractId"
+        [maxPrice]="MAX_LOAN_SUM"
+        [isReadOnly]="isReadOnly"
+      ></app-okaps-lizing-table>
+
+      <app-okaps-lizing-calculator
+        [id]="contractId"
+        [index]="i"
+        [isReadOnly]="isReadOnly"
+      ></app-okaps-lizing-calculator>
+
+      <mat-checkbox
+        *ngIf="isStandardLizing(contractId)"
+        [value]="hasProvisions(contractId)"
+        (click)="toggleHasProvisioningState(contractId)"
+        class="d-block mx-4 my-2"
+        >Имеет обеспечение</mat-checkbox
+      >
+
+      <app-provisioning-table
+        *ngIf="needsProvisionings(contractId)"
+        [id]="contractId"
+        [isReadOnly]="isReadOnly"
+      >
+      </app-provisioning-table>
+
+      <div
+        class="container my-4"
+        *ngIf="lizingContracts.length === i + 1 && formCanBeSubmitted"
+      >
+        <div class="row">
+          <div class="col">
+            <p class="total-sum mb-5 mt-2">
+              <b class="mr-3">Сумма заявки</b>
+              <b class="primary"
+                >{{ lizingTotalAmount | amountConverter: "ru" }} тенге</b
+              >
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col d-flex justify-content-between">
+            <button
+              color="primary"
+              (click)="addMoreContracts()"
+              class="px-5"
+              matTooltip="Добавить договор"
+              [disabled]="isReadOnly"
+              mat-raised-button
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+            <button
+              color="accent"
+              class="submit-btn"
+              (click)="submitLizing()"
+              [disabled]="isSaving"
+              mat-raised-button
+            >
+              {{
+                isPersistant
+                  ? isReadOnly
+                    ? "Далее"
+                    : "Сохранить"
+                  : "Подать заявку"
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

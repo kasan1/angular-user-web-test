@@ -1,0 +1,40 @@
+<mat-drawer-container style="flex-grow: 1;" [hasBackdrop]="true" autosize>
+  <mat-drawer #drawer class="p-3" mode="over">
+    <app-bpm-navigation>
+      <button
+        mat-icon-button
+        type="button"
+        class="ml-2 d-block d-sm-none"
+        (click)="drawer.close()"
+      >
+        <mat-icon>west</mat-icon>
+      </button>
+    </app-bpm-navigation>
+  </mat-drawer>
+
+  <mat-toolbar style="flex-shrink: 0;">
+    <button mat-icon-button (click)="drawer.toggle()" type="button">
+      <mat-icon>dehaze</mat-icon>
+    </button>
+
+    <button
+      @fadeInOut
+      class="ml-auto d-sm-block d-none"
+      *ngIf="user$ | async as user"
+      mat-button
+      type="button"
+    >
+      {{ user.lastName + " " + user.firstName + " " + user.middleName }}
+    </button>
+  </mat-toolbar>
+
+  <main class="container-md mb-5">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+    <mat-toolbar color="primary">
+      <span>&copy;2020 Все права защищены</span>
+    </mat-toolbar>
+  </footer>
+</mat-drawer-container>

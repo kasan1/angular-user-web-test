@@ -1,0 +1,6 @@
+<div class="mh-300">
+  <div *ngIf="loading$ | async" class="absolute-container" @fadeInOut>
+    <app-loader></app-loader>
+  </div>
+  <ng-template #container></ng-template>
+</div>

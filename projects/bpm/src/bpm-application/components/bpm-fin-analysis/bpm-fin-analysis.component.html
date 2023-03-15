@@ -1,0 +1,55 @@
+<section id="finAnalysis" *ngIf="finAnalysis$ | async as fa" @fadeIn>
+  <div *ngFor="let f of fa; let i = index" @fadeIn>
+    <div
+      class="d-flex align-items-center p-3 border border-dark"
+      [class.border-bottom-0]="i == 0"
+    >
+      <button mat-icon-button type="button">
+        <mat-icon>mail_outline</mat-icon>
+      </button>
+      <span class="title">{{ f.title }}</span>
+      <button
+        mat-raised-button
+        type="button"
+        class="indicator"
+        [class.green]="f.overall"
+        [class.accent]="!f.overall"
+        (click)="expand(f)"
+      >
+        {{ f.overall ? "Положительно" : "Отрицательно" }}
+      </button>
+    </div>
+
+    <div *ngIf="list$ | async as l">
+      <div *ngIf="l.key == f.key" @fadeIn>
+        <div
+          class="d-flex justify-content-between p-3 align-items-center border border-dark"
+          *ngFor="let item of l.items; let last = last; let first = first"
+          [class.border-bottom-0]="i == 0 || !last"
+          [class.border-top-0]="i > 0 && first"
+        >
+          <span class="pr-5">{{ item.text }}</span>
+          <button
+            mat-icon-button
+            type="button"
+            [color]="item.status != statuses.Correct ? 'accent' : 'primary'"
+          >
+            <mat-icon *ngIf="item.status == statuses.Correct">check</mat-icon>
+            <mat-icon *ngIf="item.status != statuses.Correct">close</mat-icon>
+          </button>
+        </div>
+        <div class="border border-dark border-top-0 p-3" *ngIf="f.reportId">
+          <h4 class="mb-3 ml-2">Кредитный отчет</h4>
+          <div *ngIf="file$ | async as file" @fadeIn>
+            <bpm-file-item
+              *ngIf="locale$ | async as locale"
+              [file]="file"
+              [locale]="locale"
+              [hasActions]="false"
+            ></bpm-file-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

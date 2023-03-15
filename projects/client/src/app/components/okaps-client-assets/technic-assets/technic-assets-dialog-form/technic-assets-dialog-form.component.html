@@ -1,0 +1,73 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="form">
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Наименование</mat-label>
+          <input matInput formControlName="fullname" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Год выпуска</mat-label>
+          <input
+            matInput
+            [matDatepicker]="dateIssue"
+            formControlName="dateIssue"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dateIssue"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dateIssue></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Количество</mat-label>
+          <input matInput formControlName="count" min="0" type="number" />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Количество в исправном состоянии</mat-label>
+          <input
+            matInput
+            formControlName="countOfCorrect"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-checkbox formControlName="isPledged">Обременения</mat-checkbox>
+      </div>
+    </div>
+    <div class="row mt-3" *ngIf="isPledged.value">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Кому и за что заложено</mat-label>
+          <textarea matInput formControlName="pledgeDescription"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      class="my-3"
+      *ngIf="!form.invalid"
+      type="submit"
+      color="primary"
+      mat-raised-button
+    >
+      Сохранить
+    </button>
+  </mat-dialog-actions>
+</form>

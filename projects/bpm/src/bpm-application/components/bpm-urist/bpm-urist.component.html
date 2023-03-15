@@ -1,0 +1,356 @@
+<bpm-application [showSendButton]="false" [showinWorkButton]="false">
+  <div actions>
+    <form [formGroup]="form">
+      <div>
+        <div class="header-container my-3">
+          <h3>Прававая экспертиза</h3>
+        </div>
+        <div class="header-container my-3">
+          <h4>Прававой статус Заемщика</h4>
+        </div>
+        <div>
+          <div class="row">
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              <strong>Название</strong>
+            </div>
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              <strong>Результат экспертизы</strong>
+            </div>
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center"></div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              Соответствие документов требованиям законодательства и ВНД
+              Общества
+            </div>
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              <mat-button-toggle-group
+                name="fontStyle"
+                aria-label="Font Style"
+                formControlName="clientResultVnd"
+              >
+                <mat-button-toggle [value]="true">да</mat-button-toggle>
+                <mat-button-toggle [value]="false">нет</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              <mat-form-field appearance="fill">
+                <mat-label>Примечание</mat-label>
+                <textarea
+                  matInput
+                  placeholder="дополнительная информация"
+                  formControlName="clientCommentVnd"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              Соответствие документов полученных через сайт Правительства
+              Республики
+            </div>
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              <mat-button-toggle-group
+                name="fontStyle"
+                aria-label="Font Style"
+                formControlName="clientResultRk"
+              >
+                <mat-button-toggle [value]="true">да</mat-button-toggle>
+                <mat-button-toggle [value]="false">нет</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+              <mat-form-field appearance="fill">
+                <mat-label>Примечание</mat-label>
+                <textarea
+                  matInput
+                  placeholder="дополнительная информация"
+                  formControlName="clientCommentRk"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="row"
+          *ngIf="chargees$ | async as ch"
+          formArrayName="chargees"
+        >
+          <div
+            *ngFor="let item of chargees().controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div *ngIf="!ch[i].samePerson">
+              <div class="header-container my-3">
+                <h4>
+                  Прававой статус Залогодателя: {{ ch[i].fullName }} ({{
+                    ch[i].iin
+                  }})
+                </h4>
+              </div>
+
+              <div>
+                <div class="row">
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    <strong>Название</strong>
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    <strong>Результат экспертизы</strong>
+                  </div>
+                  <div
+                    class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center"
+                  ></div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    Соответствие документов требованиям законодательства и ВНД
+                    Общества
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    <mat-button-toggle-group
+                      name="fontStyle"
+                      aria-label="Font Style"
+                      formControlName="legalResultVnd"
+                    >
+                      <mat-button-toggle [value]="true">да</mat-button-toggle>
+                      <mat-button-toggle [value]="false">нет</mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Примечание</mat-label>
+                      <textarea
+                        matInput
+                        placeholder="дополнительная информация"
+                        formControlName="legalCommentVnd"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    Соответствие документов полученных через сайт Правительства
+                    Республики
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    <mat-button-toggle-group
+                      name="fontStyle"
+                      aria-label="Font Style"
+                      formControlName="legalResultRk"
+                    >
+                      <mat-button-toggle [value]="true">да</mat-button-toggle>
+                      <mat-button-toggle [value]="false">нет</mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </div>
+                  <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Примечание</mat-label>
+                      <textarea
+                        matInput
+                        placeholder="дополнительная информация"
+                        formControlName="legalCommentRk"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="pledges$ | async as pl" formArrayName="pledges">
+          <div
+            *ngFor="let item of pledges().controls; let i = index"
+            [formGroupName]="i"
+          >
+            <div class="header-container my-3">
+              <h4>Обеспечение: {{ pl[i].name }}</h4>
+            </div>
+            <div>
+              <div class="row">
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  <strong>Название</strong>
+                </div>
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  <strong>Результат экспертизы</strong>
+                </div>
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center"></div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  Соответствие правоустанавливающих и идентификационных
+                  документов на предмет залога требованиям законодательства
+                </div>
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  <mat-button-toggle-group
+                    name="fontStyle"
+                    aria-label="Font Style"
+                    formControlName="legalResultVnd"
+                  >
+                    <mat-button-toggle [value]="true">да</mat-button-toggle>
+                    <mat-button-toggle [value]="false">нет</mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Примечание</mat-label>
+                    <textarea
+                      matInput
+                      placeholder="дополнительная информация"
+                      formControlName="legalCommentVnd"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  Соответствие документов полученных через сайт Правительства
+                  Республики
+                </div>
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  <mat-button-toggle-group
+                    name="fontStyle"
+                    aria-label="Font Style"
+                    formControlName="legalResultRk"
+                  >
+                    <mat-button-toggle [value]="true">да</mat-button-toggle>
+                    <mat-button-toggle [value]="false">нет</mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+                <div class="col-lg-4 col-12 mb-3 mb-lg-0 text-lg-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Примечание</mat-label>
+                    <textarea
+                      matInput
+                      placeholder="дополнительная информация"
+                      formControlName="legalCommentRk"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #newExpertise>
+          <table
+            *ngIf="juristResults$ | async as juristResults"
+            [class.border]="juristResults.length"
+            style="width: 100%"
+          >
+            <tr *ngFor="let res of juristResults; let i = index">
+              <td style="padding: 15px">
+                {{ i + 1 }}) {{ res.subtitleClassificationText }} :
+                {{ res.warningClassificationText }}
+              </td>
+              <td>
+                <div class="col-12 col-lg-1 pb-3 d-flex px-0 px-lg-2">
+                  <button
+                    class="ml-auto ml-lg-3 mt-2"
+                    mat-mini-fab
+                    type="button"
+                    color="accent"
+                    (click)="deleteClassifComment(res)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </ng-template>
+        <div
+          *ngIf="isReturned$ | async as isReturned; else newExpertise"
+          @fadeIn
+        >
+          <!-- <mat-form-field appearance="fill" style="margin-top: 30px">
+            <mat-label>Примечание</mat-label>
+            <textarea
+              matInput
+              placeholder="доработка, устранение замечании"
+              formControlName="juristComment"
+            ></textarea>
+          </mat-form-field> -->
+          <div
+            class="mt-4"
+            *ngIf="juristResults$ | async as juristResults"
+            [class.border]="juristResults.length"
+          >
+            <jurist-result-edit
+              *ngFor="let res of juristResults; let i = index"
+              [juristResult]="res"
+              [resultNumber]="i + 1"
+              [expertPage]="true"
+              (updateJuristResult)="_loadNotes()"
+            >
+            </jurist-result-edit>
+          </div>
+        </div>
+
+        <div *ngIf="haveNote$ | async" @fadeIn>
+          <div class="header-container my-3">
+            <h4>Классификатор замечаний</h4>
+          </div>
+          <div
+            class="col-12 px-0 px-lg-2"
+            *ngIf="DocClassifs$ | async as DocClassifs"
+            @fadeInOut
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>1 уровень</mat-label>
+              <mat-select formControlName="noteLevel1">
+                <mat-option [value]="0">Не выбрано</mat-option>
+                <mat-option *ngFor="let c of DocClassifs" [value]="c.id">{{
+                  c.nameRu
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="DocClassifs2$ | async as DocClassifs2" @fadeInOut>
+              <mat-form-field appearance="fill">
+                <mat-label>2 уровень</mat-label>
+                <mat-select formControlName="noteLevel2">
+                  <mat-option [value]="0">Не выбрано</mat-option>
+                  <mat-option *ngFor="let c of DocClassifs2" [value]="c.id">{{
+                    c.nameRu
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="DocClassifs3$ | async as DocClassifs3" @fadeInOut>
+                <mat-form-field appearance="fill">
+                  <mat-label>3 уровень</mat-label>
+                  <mat-select formControlName="noteLevel3">
+                    <mat-option [value]="0">Не выбрано</mat-option>
+                    <mat-option *ngFor="let c of DocClassifs3" [value]="c.id">{{
+                      c.nameRu
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <button
+                  mat-flat-button
+                  type="button"
+                  color="primary"
+                  class="px-5 ml-lg-auto w-sm-100 mt-4"
+                  (click)="addClassifComment()"
+                >
+                  Добавить
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          style="margin-top: 150px"
+          mat-flat-button
+          color="primary"
+          class="px-5 ml-lg-auto w-sm-100"
+          (click)="submit1()"
+          [class.access-readonly]="saving$ | async"
+        >
+          Отправить
+        </button>
+      </div>
+    </form>
+  </div>
+</bpm-application>

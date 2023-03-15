@@ -1,0 +1,19 @@
+<div>
+  <h1 class="title" mat-dialog-title>{{ title }}</h1>
+  <mat-dialog-content class="mat-typography">
+    <p *ngIf="contentText !== null">{{ contentText }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button (click)="onBtnClick(false)" class="my-3" mat-raised-button>
+      Нет
+    </button>
+    <button
+      (click)="onBtnClick(true)"
+      class="my-3"
+      color="primary"
+      mat-raised-button
+    >
+      Да
+    </button>
+  </mat-dialog-actions>
+</div>

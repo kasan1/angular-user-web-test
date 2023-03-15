@@ -1,0 +1,135 @@
+<div class="px-lg-5 px-3" style="min-height: 4rem">
+  <p
+    class="text-lg-right accent"
+    @fadeInOut
+    *ngIf="
+      selectedIndex < 4 &&
+      selectedIndex != null &&
+      !access[selectedIndex + 1].value()
+    "
+  >
+    {{ access[selectedIndex + 1].text }}
+  </p>
+</div>
+<div class="px-lg-5 px-3">
+  <div class="d-flex mr-lg-5" id="nextBtn">
+    <button
+      mat-raised-button
+      type="button"
+      class="px-5 w-sm-100 ml-xl-auto mb-4 mr-3"
+      [class.access-readonly]="selectedIndex == 0"
+      @fadeIn
+      (click)="previous()"
+    >
+      Назад
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      class="px-5 w-sm-100 ml-xl-auto mb-4"
+      @fadeIn
+      [class.access-readonly]="
+        selectedIndex == 4 || !access[selectedIndex + 1].value()
+      "
+      (click)="next()"
+    >
+      Далее
+    </button>
+  </div>
+  <mat-tab-group
+    [selectedIndex]="selectedIndex"
+    [dynamicHeight]="true"
+    color="accent"
+  >
+    <mat-tab [disabled]="true" label="Информация о клиенте">
+      <div class="mx-lg-n5 mx-n3 mt-5">
+        <bpm-application-base [editClient]="true">
+          <div addons>
+            <div class="w-100 mx-1 mt-3 mb-4">
+              <mat-checkbox [formControl]="isParticipant"
+                >Является участником ГП Енбек</mat-checkbox
+              >
+            </div>
+            <mat-divider></mat-divider>
+            <div class="mt-4" style="min-height: 150px">
+              <div
+                class="mt-4 mb-3 p-1"
+                *ngIf="files$ | async as files"
+                @fadeIn
+              >
+                <bpm-application-files [files]="files"></bpm-application-files>
+              </div>
+              <button
+                type="button"
+                color="primary"
+                class="w-sm-100 px-5"
+                mat-flat-button
+                (click)="documentDialog()"
+              >
+                Добавить документ
+              </button>
+            </div>
+          </div>
+          <div actions class="ml-xl-auto w-sm-100">
+            <div class="d-flex flex-column">
+              <button
+                type="button"
+                class="px-5 w-sm-100"
+                mat-flat-button
+                color="accent"
+                (click)="finish()"
+              >
+                Переход: Резюме
+              </button>
+            </div>
+          </div>
+        </bpm-application-base>
+      </div>
+    </mat-tab>
+    <mat-tab [disabled]="true" label="Обеспечение">
+      <div class="mt-4">
+        <bpm-holdings></bpm-holdings>
+      </div>
+    </mat-tab>
+    <mat-tab [disabled]="true" label="Цель займа">
+      <div class="mt-4">
+        <bpm-application-purpose></bpm-application-purpose>
+      </div>
+    </mat-tab>
+    <mat-tab [disabled]="true" label="Условия займа">
+      <div class="mt-4">
+        <bpm-application-condition></bpm-application-condition>
+      </div>
+    </mat-tab>
+    <mat-tab [disabled]="true" label="Подписание">
+      <div class="row mt-5 condensed">
+        <div class="col-lg-8 col-12">
+          <div class="p-1" *ngIf="finalFiles$ | async as finalFiles">
+            <bpm-application-files [files]="finalFiles"></bpm-application-files>
+          </div>
+          <button
+            type="button"
+            color="primary"
+            class="w-sm-100 px-5 my-4"
+            mat-flat-button
+            (click)="finalDocumentDialog()"
+          >
+            Добавить документ
+          </button>
+        </div>
+
+        <div class="col-lg-4 col-12 text-lg-right">
+          <button
+            mat-flat-button
+            color="accent"
+            class="px-5 w-sm-100"
+            type="button"
+            (click)="documents()"
+          >
+            Список документов
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

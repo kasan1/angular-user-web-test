@@ -1,0 +1,146 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="form">
+  <h3 class="text-center m-0 mb-4">{{ title }}</h3>
+  <mat-form-field
+    *ngIf="isProductForm && dictionaries.techTypesCollection.length > 0"
+    appearance="fill"
+  >
+    <mat-label>Вид техники</mat-label>
+    <mat-select
+      formControlName="techType"
+      (selectionChange)="onTechTypeChange()"
+    >
+      <mat-option
+        *ngFor="let type of dictionaries.techTypesCollection"
+        [value]="type"
+      >
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="
+      techType.value !== null &&
+      isProductForm &&
+      dictionaries.techSubtypesCollection.length > 0
+    "
+    appearance="fill"
+  >
+    <mat-label>Подвид техники</mat-label>
+    <mat-select
+      formControlName="techSubtype"
+      (selectionChange)="onTechSubtypeChange()"
+    >
+      <mat-option
+        *ngFor="let subtype of dictionaries.techSubtypesCollection"
+        [value]="subtype"
+      >
+        {{ subtype.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="
+      (techSubtype.value !== null || !isProductForm) &&
+      dictionaries.techProductsCollection.length > 0
+    "
+    appearance="fill"
+  >
+    <mat-label>Товар</mat-label>
+    <mat-select
+      formControlName="techProduct"
+      (selectionChange)="onTechProductChange()"
+    >
+      <mat-option
+        *ngFor="let product of dictionaries.techProductsCollection"
+        [value]="product"
+      >
+        {{ product.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="
+      techProduct.value !== null && dictionaries.modelsCollection.length > 0
+    "
+    appearance="fill"
+  >
+    <mat-label>Модель</mat-label>
+    <mat-select formControlName="model" (selectionChange)="onModelChange()">
+      <mat-option
+        *ngFor="let model of dictionaries.modelsCollection"
+        [value]="model"
+      >
+        {{ model.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="
+      model.value !== null && dictionaries.manufacturersCollection.length > 0
+    "
+    appearance="fill"
+  >
+    <mat-label>Страна производства</mat-label>
+    <mat-select
+      formControlName="manufacturer"
+      (selectionChange)="onManufacturerChange()"
+    >
+      <mat-option
+        *ngFor="let manufactureCountry of dictionaries.manufacturersCollection"
+        [value]="manufactureCountry"
+      >
+        {{ manufactureCountry.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="
+      manufacturer.value !== null && dictionaries.suppliersCollection.length > 0
+    "
+    appearance="fill"
+  >
+    <mat-label>Поставщик</mat-label>
+    <mat-select
+      formControlName="supplier"
+      (selectionChange)="onSupplierChange()"
+    >
+      <mat-option
+        *ngFor="let supplier of dictionaries.suppliersCollection"
+        [value]="supplier"
+      >
+        {{ supplier.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="row">
+    <div class="col">
+      <mat-form-field *ngIf="supplier.value !== null" appearance="fill">
+        <mat-label>Цена</mat-label>
+        <input matInput formControlName="price" min="1" type="number" />
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field *ngIf="supplier.value !== null" appearance="fill">
+        <mat-label>Количество</mat-label>
+        <input matInput formControlName="count" min="1" type="number" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col text-center">
+      <button
+        *ngIf="!form.invalid"
+        type="submit"
+        color="primary"
+        mat-raised-button
+      >
+        Сохранить
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,27 @@
+#applicationsList {
+  background: #fff;
+  padding: 1rem 0.5rem;
+
+  button {
+    margin-bottom: 0.4rem;
+  }
+}
+
+div.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+span.amount {
+  background: #ccc;
+  border-radius: 10%;
+  width: 66px;
+  height: 22px;
+  line-height: 22px;
+
+  &.attention {
+    color: #fff;
+    background: #e91e63;
+  }
+}

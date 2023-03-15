@@ -1,0 +1,7 @@
+#nextBtn {
+  @media screen and (min-width: 1200px) {
+    position: absolute;
+    right: 0;
+    z-index: 1000;
+  }
+}

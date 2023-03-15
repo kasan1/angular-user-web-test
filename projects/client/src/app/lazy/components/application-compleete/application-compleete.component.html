@@ -1,0 +1,53 @@
+<style>
+  p {
+    line-height: 1.5;
+  }
+  li {
+    line-height: 1.4;
+  }
+</style>
+
+<app-dialog-title 
+  *ngIf="data.closeResult"
+  [readonly]="loading"
+  title="Позравляем!"
+></app-dialog-title >
+
+<div mat-dialog-content class="px-4" style="max-height: 75vh;">
+  <p>Номер заявки № <strong>{{data.number}}</strong></p>
+  
+  <div *ngIf="data.closeResult">
+    <p>Позравляем! Вы успешно прошли проверки по сведениям государственных баз данных.</p>
+    <p>Для дальнейшего рассмотрения Вашего заявления Вам необходимо осуществить следующие действия:</p>
+    <p>Вам необходимо обратиться в <strong>{{data.branch.nameRu}}</strong> АО "Фонд финансовой поддержки сельского хозяйства" по адресу <strong>{{data.branch.addressRu}}</strong>, тел: <strong>+7(727)334-19-68, 8 (728) 22-00-99 8 (728) 24-20-21</strong>, со следующим перечнем документов: </p>
+    <a mat-raised-button color="primary" (click)="downloadDocs()">Перечень документов</a>
+    <p>*В случае, если предлагаемое в залог имущество принадлежит третьему лицу (вещному поручителю), данному лицу также необходимо обратиться в филиал с документом, удостоверяющим личность.</p>
+    <p>**В случае получения одобрения заявки на получение займа (кредита) необходимо дополнительно предоставить следующий перечень документов:</p>
+    <p>Нотариально заверенное согласие супруга(и) и остальных совершеннолетних собственников на предоставление в щалог имущества и его внесудебную реализацию/нотариально заверенное заявление щалогодателя о том, что на момент приобретения имущества и предосталения в щалог имущества в браке не состоял(а) и не состоит; Форма согласий</p>
+    <p>Согласие органа опеки и попечительства на передачу доли несовершеннолетних детей в залог.</p>
+  </div>
+  
+  <div *ngIf="data.closeResult == false" class="row border border-danger d-flex justify-content-center py-5 mx-5 my-5">
+    <p class="px-3">{{data.finAnalysis.finalErrorMessage}}</p>
+  </div>
+
+  <div class="text-right py-2">
+    <button
+    mat-raised-button mat-dialog-close
+    type="button"
+    color="primary"
+    [class.access-readonly]="loading"
+
+    >
+      Продолжить подачу
+    </button>
+    <button
+    mat-raised-button mat-dialog-close
+    type="button"
+    color="primary"
+    [class.access-readonly]="loading"
+    >
+      Закрыть
+    </button>
+  </div>
+</div>

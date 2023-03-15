@@ -1,0 +1,58 @@
+<div *ngIf="app$ | async as a" @fadeIn class="condensed">
+  <header>
+    Кредитная заявка {{ a.number }} от
+    {{ a.dateCreated | date: "dd.MM.yyyy" }}
+  </header>
+  <section id="clientInfo" class="mt-4 row no-gutters">
+    <div class="col-lg-8 col-12">
+      <p>
+        <strong
+          >{{ a.client.fullName
+          }}{{
+            a.client.maritalStatus
+              ? ", " + marriedTitle(a.client.maritalStatus)
+              : ""
+          }}{{
+            a.client.childrenCount
+              ? ", кол-во детей: " + a.client.childrenCount
+              : ", кол-во детей: Не указано"
+          }}</strong
+        >
+      </p>
+      <p>ИИН: {{ a.client.iin }}</p>
+      <p>{{ passport(a.client) }}</p>
+      <p>
+        Адрес регистрации:
+        {{ a.client.address ? a.client.address : "Не указан" }}
+      </p>
+
+      <p *ngIf="a.client.clientType" @fadeIn>
+        {{ a.client.clientType }} {{ a.client.companyName || "Не указано" }},
+        {{ a.client.companyActivity || "Не указано" }}
+      </p>
+      <p *ngIf="!a.client.clientType" @fadeIn>Форма ИП не указана</p>
+      <p>
+        {{ a.client.phone || ""
+        }}{{
+          a.client.additionPhone
+            ? (a.client.phone ? ", " : "") + a.client.additionPhone
+            : ""
+        }}
+      </p>
+    </div>
+    <div class="col-lg-4 col-12 d-flex justify-content-end">
+      <div class="d-flex align-self-end w-100">
+        <button
+          *ngIf="hasActions"
+          type="button"
+          class="px-5 w-sm-100 ml-auto mb-3 mb-lg-0"
+          mat-flat-button
+          color="primary"
+          (click)="edit()"
+        >
+          Редактировать
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

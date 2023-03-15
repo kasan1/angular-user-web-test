@@ -1,0 +1,38 @@
+<div class="px-lg-5 px-3 mh-300">
+  <div class="absolute-container" *ngIf="loading$ | async" @fadeInOut>
+    <app-loader></app-loader>
+  </div>
+  <div
+    class="row no-gutters condensed"
+    *ngIf="application$ | async as application"
+    @fadeIn
+  >
+    <div class="col-xl-6 col-12">
+      <div class="mb-3">
+        <bpm-client [hasActions]="editClient"></bpm-client>
+      </div>
+
+      <div *ngIf="finAnalysis$ | async as fa" @fadeIn>
+        <bpm-fin-analysis [finAnalysis]="fa"></bpm-fin-analysis>
+      </div>
+
+      <div class="mt-5" *ngIf="purpose">
+        <mat-form-field appearance="fill">
+          <mat-label>Цель займа</mat-label>
+          <textarea
+            [value]="application.purpose"
+            matInput
+            readonly
+            rows="5"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <ng-content select="[addons]"></ng-content>
+    </div>
+    <div class="col-xl-6 col-12 pl-xl-4 mt-4 mt-xl-0">
+      <div class="d-flex">
+        <ng-content select="[actions]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

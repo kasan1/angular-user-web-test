@@ -1,0 +1,9 @@
+<bpm-file-upload-base
+  [code]="code"
+  [page]="page"
+  [deferred]="false"
+  [initialFiles]="files"
+  [hasActions]="hasActions"
+  (fileDeleted)="handleFileDelete($event)"
+  (filesUploaded)="handleFilesUpload($event)"
+></bpm-file-upload-base>

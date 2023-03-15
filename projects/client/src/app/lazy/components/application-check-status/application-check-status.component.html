@@ -1,0 +1,37 @@
+<style>
+  p {
+    line-height: 1.5;
+  }
+  li {
+    line-height: 1.4;
+  }
+</style>
+
+<app-dialog-title
+  [readonly]="loading"
+  title=""
+></app-dialog-title>
+
+<div mat-dialog-content class="px-4" style="max-height: 75vh;">
+  <div>
+
+    <div class="row border border-success rounded-lg d-flex justify-content-center py-5 mx-5">
+      <strong>Ваша заявка в процессе анализа.</strong>
+    </div>
+    
+    <div class="row d-flex justify-content-center mt-5">
+      <strong>Время ожидания не более 15 мин</strong>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center mt-5 py-2 text-center">
+    <button
+    mat-raised-button
+    type="button"
+    color="primary"
+    [mat-dialog-close]="true"
+    [class.access-readonly]="loading"
+    >
+      Обновить статус
+    </button>
+  </div>
+</div>

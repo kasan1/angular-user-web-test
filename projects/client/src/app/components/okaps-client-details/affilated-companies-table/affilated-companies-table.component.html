@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8 w-100"
+      >
+        <ng-container matColumnDef="fullname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Наименование предприятия, адрес
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.fullname }}</td>
+        </ng-container>
+        <ng-container matColumnDef="identifier">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>БИН</th>
+          <td mat-cell *matCellDef="let element">{{ element.identifier }}</td>
+        </ng-container>
+        <ng-container matColumnDef="head">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Руководитель
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.head }}</td>
+        </ng-container>
+        <ng-container matColumnDef="banks">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Обслуживающие банки, № счетов
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.banks }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="shareInCapital">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Доле в уставном (акционерной) компании
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.shareInCapital }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="debts">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Размер ссудной задолженности с указанием банка
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.debts }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Действия</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button
+              mat-icon-button
+              color="primary"
+              class="m-1"
+              matTooltip="Редактировать"
+              aria-label="edit icon button"
+              (click)="editAffilatedOrganisation(i)"
+              [disabled]="isReadOnly"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              class="my-1 mx-2"
+              matTooltip="Удалить"
+              aria-label="delete icon button"
+              (click)="removeAffilatedOrganisation(i)"
+              [disabled]="isReadOnly"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button
+        class="my-3 px-3"
+        mat-raised-button
+        color="primary"
+        aria-label="add accessory button"
+        (click)="addAffilatedOrganisation()"
+        [disabled]="isReadOnly"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

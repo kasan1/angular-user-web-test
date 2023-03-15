@@ -1,0 +1,18 @@
+{
+  "ru": {
+    "homePage": "Продукты",
+    "applications": "Заявки",
+    "protectedPage": "Защищенная страница (тест)",
+    "logout": "Выход из системы",
+    "login": "Вход",
+    "register": "Регистрация"
+  },
+  "kz": {
+    "homePage": "Продукты [kz]",
+    "applications": "Заявки [kz]",
+    "protectedPage": "Защищенная страница (тест) [kz]",
+    "logout": "Выход из системы [kz]",
+    "login": "Вход [kz]",
+    "register": "Регистрация [kz]"
+  }
+}

@@ -1,0 +1,99 @@
+<div class="container" *ngIf="dataSource?.data.length > 0">
+  <div class="row">
+    <div class="col">
+      <table
+        mat-table
+        matSort
+        [dataSource]="dataSource"
+        class="mat-elevation-z8 w-100"
+      >
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>№</th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="techProductName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Товар</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.techProductName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="modelName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Модель</th>
+          <td mat-cell *matCellDef="let element">{{ element.modelName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="manufacturerName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Страна производства
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.manufacturerName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="supplierName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Поставщик</th>
+          <td mat-cell *matCellDef="let element">{{ element.supplierName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Стоимость</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.price | amountConverter: "ru" }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Количество</th>
+          <td mat-cell *matCellDef="let element">{{ element.count }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Действия</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button
+              mat-icon-button
+              color="primary"
+              class="m-1"
+              matTooltip="Редактировать"
+              (click)="
+                element.isAccessory ? onAccessoryEdit(i - 1) : onProductEdit()
+              "
+              [disabled]="isReadOnly"
+              aria-label="edit icon button"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              class="my-1 mx-2"
+              matTooltip="Удалить"
+              (click)="
+                element.isAccessory
+                  ? onAccessoryRemove(i - 1)
+                  : onContractRemove()
+              "
+              [disabled]="isReadOnly"
+              aria-label="delete icon button"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button
+        class="my-3 float-right"
+        mat-raised-button
+        color="primary"
+        aria-label="add accessory button"
+        (click)="onAccessoryAdd(lizingContract.accessories.length - 1)"
+        [disabled]="isReadOnly"
+      >
+        Добавить комплектующее
+      </button>
+    </div>
+  </div>
+</div>

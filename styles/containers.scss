@@ -1,0 +1,8 @@
+.menu-vertical {
+  display: flex;
+  flex-direction: column;
+
+  .menu-item {
+    padding: 0 2rem;
+  }
+}

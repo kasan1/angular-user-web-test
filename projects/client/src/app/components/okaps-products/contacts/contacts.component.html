@@ -1,0 +1,68 @@
+<div class="container my-3">
+  <div class="row" *ngIf="user$ | async as user">
+    <div class="col">
+      <mat-list>
+        <mat-list-item
+          *ngIf="user.lastName || user.firstName || user.middleName"
+        >
+          <mat-icon mat-list-icon matTooltip="ФИО" matTooltipPosition="left"
+            >person</mat-icon
+          >
+          <div mat-line>
+            {{ user.lastName }} {{ user.firstName }} {{ user.middleName }}
+          </div>
+        </mat-list-item>
+        <mat-list-item *ngIf="user.phone">
+          <mat-icon mat-list-icon matTooltip="Телефон" matTooltipPosition="left"
+            >phone</mat-icon
+          >
+          <div mat-line>{{ user.phone }}</div>
+        </mat-list-item>
+        <mat-list-item *ngIf="user.email">
+          <mat-icon
+            mat-list-icon
+            matTooltip="Электронная почта"
+            matTooltipPosition="left"
+            >email</mat-icon
+          >
+          <div mat-line>{{ user.email }}</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="col">
+      <mat-list>
+        <mat-list-item *ngIf="user.identifier">
+          <mat-icon mat-list-icon matTooltip="ИИН/БИН" matTooltipPosition="left"
+            >badge</mat-icon
+          >
+          <div mat-line>{{ user.identifier }}</div>
+        </mat-list-item>
+        <mat-list-item *ngIf="user.birthDate">
+          <mat-icon
+            mat-list-icon
+            matTooltip="Дата рождения"
+            matTooltipPosition="left"
+            >date_range</mat-icon
+          >
+          <div mat-line>
+            {{ user.birthDate | date: "dd-MM-yyyy" }}
+          </div>
+        </mat-list-item>
+        <mat-list-item
+          *ngIf="user.certificateStartDate && user.certificateEndDate"
+        >
+          <mat-icon
+            mat-list-icon
+            matTooltip="Срок действия ЭЦП"
+            matTooltipPosition="left"
+            >history_toggle_off</mat-icon
+          >
+          <div mat-line>
+            {{ user.certificateStartDate | date: "dd/MM/yyyy" }} -
+            {{ user.certificateEndDate | date: "dd/MM/yyyy" }}
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>

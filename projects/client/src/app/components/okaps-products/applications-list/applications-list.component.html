@@ -1,0 +1,153 @@
+<div class="my-5 mx-3">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    class="mat-elevation-z8 w-100"
+  >
+    <ng-container matColumnDef="registerNumber">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by application number"
+      >
+        № заявки
+      </th>
+      <ng-container *matCellDef="let element">
+        <td
+          mat-cell
+          *ngIf="element.loanApplicationId"
+          [attr.rowspan]="rowSpanData[element.loanApplicationId]"
+        >
+          {{ element.registerNumber }}
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="createdDate">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by created date"
+        class="date"
+      >
+        Дата
+      </th>
+      <ng-container *matCellDef="let element">
+        <td
+          mat-cell
+          *ngIf="element.loanApplicationId"
+          [attr.rowspan]="rowSpanData[element.loanApplicationId]"
+        >
+          {{ element.createdDate | date: "dd-MM-yyyy" }}
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by application status"
+      >
+        Статус
+      </th>
+      <ng-container *matCellDef="let element">
+        <td
+          mat-cell
+          *ngIf="element.loanApplicationId"
+          [attr.rowspan]="rowSpanData[element.loanApplicationId]"
+        >
+          {{ element.status }}
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by application type"
+      >
+        Тип
+      </th>
+      <ng-container *matCellDef="let element">
+        <td
+          mat-cell
+          *ngIf="element.loanApplicationId"
+          [attr.rowspan]="rowSpanData[element.loanApplicationId]"
+        >
+          {{ element.type }}
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef>Предмет лизинга</th>
+      <ng-container *matCellDef="let element">
+        <td mat-cell>
+          {{ element.subject }}
+        </td>
+      </ng-container>
+    </ng-container>
+    <ng-container matColumnDef="rate">
+      <th mat-header-cell *matHeaderCellDef>Ставка</th>
+      <ng-container *matCellDef="let element">
+        <td mat-cell>{{ element.rate }}%</td>
+      </ng-container>
+    </ng-container>
+    <ng-container matColumnDef="sum">
+      <th mat-header-cell *matHeaderCellDef>Сумма</th>
+      <ng-container *matCellDef="let element">
+        <td mat-cell>
+          {{ element.sum | amountConverter: "ru" }}
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="actions">Действия</th>
+      <ng-container *matCellDef="let element">
+        <td
+          mat-cell
+          *ngIf="element.loanApplicationId"
+          [attr.rowspan]="rowSpanData[element.loanApplicationId]"
+        >
+          <button
+            mat-icon-button
+            matTooltip="Удалить"
+            color="warn"
+            (click)="removeApplication(element.loanApplicationId)"
+          >
+            <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            matTooltip="Отправить на рассмотрение"
+            color="primary"
+            [routerLink]="[element.loanApplicationId]"
+          >
+            <mat-icon class="mat-18">send</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    class="mat-elevation-z8"
+    [length]="count"
+    [pageIndex]="page"
+    [pageSize]="pageLimit"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageEvent = loadApplications($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

@@ -1,0 +1,315 @@
+<div class="mh-400 px-4 condensed">
+  <div *ngIf="loading$ | async" class="absolute-container" @fadeInOut>
+    <app-loader></app-loader>
+  </div>
+
+  <form [formGroup]="searchForm" (ngSubmit)="search()">
+    <div class="row">
+      <div class="col-12 col-lg-6 col-xl-4 offset-lg-4 offset-xl-3">
+        <mat-form-field appearance="fill">
+          <mat-label>ИИН/ФИО</mat-label>
+          <input matInput formControlName="search" />
+          <button matSuffix mat-icon-button type="submit">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div
+      *ngIf="statistics$ | async as x"
+      class="col-12 col-lg-4 col-xl-3"
+      @fadeIn
+    >
+      <div
+        id="applicationsList"
+        class="d-flex flex-column mat-elevation-z2 mb-4"
+        *ngIf="currentType$ | async as ct"
+      >
+        <h2 class="ml-3">Заявки</h2>
+        <button
+          type="button"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CMAll"
+          (click)="switchType(applicationType.CMAll)"
+        >
+          <div class="item">
+            <span class="title">Все заявки (CM)</span>
+            <span class="amount" [class.attention]="x.cmAll > 0">{{
+              x.cmAll
+            }}</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CMNew"
+          (click)="switchType(applicationType.CMNew)"
+        >
+          <div class="item">
+            <span class="title">Входящие (CM)</span>
+            <span class="amount" [class.attention]="x.cmNew > 0">{{
+              x.cmNew
+            }}</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CMInWork"
+          (click)="switchType(applicationType.CMInWork)"
+        >
+          <div class="item">
+            <span class="title">В работе (CM)</span>
+            <span class="amount" [class.attention]="x.cmInWork > 0">{{
+              x.cmInWork
+            }}</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CMReview"
+          (click)="switchType(applicationType.CMReview)"
+        >
+          <div class="item">
+            <span class="title">Осмотр (CM)</span>
+            <span class="amount" [class.attention]="x.cmReview > 0">{{
+              x.cmReview
+            }}</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CMRework"
+          (click)="switchType(applicationType.CMRework)"
+        >
+          <div class="item">
+            <span class="title">На доработке (CM)</span>
+            <span class="amount" [class.attention]="x.cmRework > 0">{{
+              x.cmRework
+            }}</span>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.PrepareCreditDossier"
+          (click)="switchType(applicationType.PrepareCreditDossier)"
+        >
+          <div class="item">
+            <span class="title">Подготовить кредитное досье</span>
+            <span
+              class="amount"
+              [class.attention]="x.prepareCreditDossier > 0"
+              >{{ x.prepareCreditDossier }}</span
+            >
+          </div>
+        </button>
+
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.Completed"
+          (click)="switchType(applicationType.Completed)"
+        >
+          <div class="item">
+            <span class="title">Завершено</span>
+            <span class="amount" [class.attention]="x.completed > 0">{{
+              x.completed
+            }}</span>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CMArchive"
+          (click)="switchType(applicationType.CMArchive)"
+        >
+          <div class="item">
+            <span class="title">Архив (CM)</span>
+            <span class="amount" [class.attention]="x.cmArchive > 0">{{
+              x.cmArchive
+            }}</span>
+          </div>
+        </button>
+
+        <h2 class="ml-3">Руководитель Юристов</h2>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.URBoss"
+          (click)="switchType(applicationType.URBoss)"
+        >
+          <div class="item">
+            <span class="title">На распределение</span>
+            <span class="amount" [class.attention]="x.urBoss > 0">{{
+              x.urBoss
+            }}</span>
+          </div>
+        </button>
+
+        <h2 class="ml-3">Юрист</h2>
+
+        <button
+          type="button"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.URAll"
+          (click)="switchType(applicationType.URAll)"
+        >
+          <div class="item">
+            <span class="title">Все заявки (UR)</span>
+            <span class="amount" [class.attention]="x.urAll > 0">{{
+              x.urAll
+            }}</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.URNew"
+          (click)="switchType(applicationType.URNew)"
+        >
+          <div class="item">
+            <span class="title">Входящие (UR)</span>
+            <span class="amount" [class.attention]="x.urNew > 0">{{
+              x.urNew
+            }}</span>
+          </div>
+        </button>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.URRework"
+          (click)="switchType(applicationType.URRework)"
+        >
+          <div class="item">
+            <span class="title">На доработке (UR)</span>
+            <span class="amount" [class.attention]="x.urRework > 0">{{
+              x.urRework
+            }}</span>
+          </div>
+        </button>
+
+        <h2 class="ml-3">Руководитель Залоговой экспертиза</h2>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.EPledgeBoss"
+          (click)="switchType(applicationType.URBoss)"
+        >
+          <div class="item">
+            <span class="title">На распределение</span>
+            <span class="amount" [class.attention]="x.urBoss > 0">{{
+              x.urBoss
+            }}</span>
+          </div>
+        </button>
+
+        <h2 class="ml-3">Залоговая экспертиза</h2>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.EPledge"
+          (click)="switchType(applicationType.EPledge)"
+        >
+          <div class="item">
+            <span class="title">Входящие (EP)</span>
+            <span class="amount" [class.attention]="x.ePledge > 0">{{
+              x.ePledge
+            }}</span>
+          </div>
+        </button>
+        <h2 class="ml-3">Акт осмотра</h2>
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.EAct"
+          (click)="switchType(applicationType.EAct)"
+        >
+          <div class="item">
+            <span class="title">Входящие (AV)</span>
+            <span class="amount" [class.attention]="x.eAct > 0">{{
+              x.eAct
+            }}</span>
+          </div>
+        </button>
+
+        <h2 class="ml-3">Кредитный комитет</h2>
+
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CCNew"
+          (click)="switchType(applicationType.CCNew)"
+        >
+          <div class="item">
+            <span class="title">На голосовании</span>
+            <span class="amount" [class.attention]="x.ccNew > 0">{{
+              x.ccNew
+            }}</span>
+          </div>
+        </button>
+
+        <h2 class="ml-3">Кредитный администратор</h2>
+
+        <button
+          type="button"
+          class="w-100"
+          mat-button
+          [class.mat-elevation-z1]="ct == applicationType.CredAdminAll"
+          (click)="switchType(applicationType.CredAdminAll)"
+        >
+          <div class="item">
+            <span class="title">Все заявки</span>
+            <span class="amount" [class.attention]="x.credAdminAll > 0">{{
+              x.credAdminAll
+            }}</span>
+          </div>
+        </button>
+        <button
+        type="button"
+        class="w-100"
+        mat-button
+        [class.mat-elevation-z1]="ct == applicationType.CredAdminCheck"
+        (click)="switchType(applicationType.CredAdminCheck)"
+      >
+        <div class="item">
+          <span class="title">В работе</span>
+          <span class="amount" [class.attention]="x.credAdminCheck > 0">{{
+            x.credAdminCheck
+          }}</span>
+        </div>
+      </button>
+      </div>
+    </div>
+    <div class="col-12 col-lg-8 col-xl-9">
+      <div class="mat-elevation-z4" *ngIf="table$ | async as table" @fadeInOut>
+        <app-table
+          [table]="table"
+          (pageChange)="handlePageChange($event)"
+          (sortChange)="handleSortChange($event)"
+          (selectionChange)="handleSelectionChange($event)"
+        ></app-table>
+      </div>
+    </div>
+  </div>
+</div>

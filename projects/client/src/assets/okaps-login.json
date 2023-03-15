@@ -1,0 +1,10 @@
+{
+  "ru": {
+    "login": "Вход",
+    "loginMessage": "Вход в систему"
+  },
+  "kz": {
+    "login": "Вход [kz]",
+    "loginMessage": "Вход в систему [kz]"
+  }
+}

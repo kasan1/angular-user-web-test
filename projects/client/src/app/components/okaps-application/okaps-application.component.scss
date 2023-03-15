@@ -1,0 +1,42 @@
+.example-button-toggle-label {
+  display: inline-block;
+  margin: 16px;
+}
+
+.products-lists {
+  display: block;
+  padding: 20px 0;
+  
+  .products-lists-wrapper {
+      border-radius: 4px;
+      margin: 24px 0;
+      border: 1px solid rgba(0,0,0,.2);
+      color: rgba(0,0,0,.87);
+      background: rgba(0,0,0,.01);
+  }
+}
+
+.products-card {
+  max-width: 200px;
+  height: 200px;
+
+  .mat-card-content {
+      font-size: 14px;
+      white-space: normal;
+      line-height: normal;
+  }
+}
+
+.button-row {
+  display: table-cell;
+}
+table {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+}
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+}

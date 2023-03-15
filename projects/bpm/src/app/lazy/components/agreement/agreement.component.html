@@ -1,0 +1,95 @@
+<style>
+  #application p {
+    line-height: 1.5;
+  }
+  #application li {
+    line-height: 1.4;
+  }
+</style>
+
+<app-dialog-title
+  [readonly]="loading"
+  title="Решение кредитного комитета"
+></app-dialog-title>
+
+<div mat-dialog-content class="px-4" style="max-height: 75vh;">
+  <section id="application">
+    <div>
+      <div class="header-container">
+        <h3>Заявление</h3>
+      </div>
+      <p>
+        Настоящим Я
+      </p>
+      <p>
+        полностью понимаю и принимаю их и даю нижеследующее согласие.
+      </p>
+
+      <div class="header-container">
+        <h3>Согласие</h3>
+      </div>
+      <p>
+        Дата: <strong>{{ dateNow }}</strong>
+      </p>
+      <p>
+        ИИН: <strong>{{ data.iin }}</strong>
+      </p>
+      <p>
+        Фамилия: <strong>{{ data.lastName }}</strong>
+      </p>
+      <p>
+        Имя: <strong>{{ data.firstName }}</strong>
+      </p>
+      <p>
+        Отчество: <strong>{{ data.middleName }}</strong>
+      </p>
+      <p>
+        Настоящим Я,
+        <strong>{{ data.lastName + " " + data.firstName + " " + data.middleName }}</strong>
+        предоставляю свое согласие 
+      </p>
+      <p>
+        Согласие предоставил
+        <strong>{{
+          data.lastName + " " + data.firstName + " " + data.middleName
+        }}</strong>
+      </p>
+
+      <p>
+        Подпись:<span style="text-decoration: underline;"
+          >Подписано электронной цифровой подписью</span
+        >
+      </p>
+      <p>
+        Согласие принял
+        <strong>
+          Куанышев Бауржан Булатович – Директор Департамента оптимизации
+          продуктов и процессов</strong>
+      </p>
+      <p>
+        Подпись:<span style="text-decoration: underline;"
+          >Подписано электронной цифровой подписью</span
+        >
+      </p>
+    </div>
+  </section>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    mat-flat-button
+    cdkFocusInitial
+    mat-dialog-close
+    [class.access-readonly]="loading"
+  >
+    Отмена
+  </button>
+  <button
+    mat-flat-button
+    type="button"
+    (click)="sign()"
+    [class.access-readonly]="loading"
+  >
+    Подписать
+  </button>
+</div>

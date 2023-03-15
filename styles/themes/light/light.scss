@@ -1,0 +1,31 @@
+@import "~@angular/material/theming";
+@import "navbar";
+@import "footer";
+@import "table";
+@include mat-core();
+
+$light-primary: mat-palette($mat-cyan, 600, 200, 900);
+$light-accent: mat-palette($mat-pink);
+
+$light-theme: mat-light-theme($light-primary, $light-accent);
+@include angular-material-theme($light-theme);
+@import "colors";
+
+body {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a2a2a2;
+  border-radius: 100px;
+  border: 1px solid #a2a2a2;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  height: 0.45rem;
+  width: 0.45rem;
+}

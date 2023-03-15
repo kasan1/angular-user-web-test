@@ -1,0 +1,83 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
+      <mat-panel-title>
+        <mat-icon *ngIf="juristResult.isFixed" [class.green]="true"
+          >check_box</mat-icon
+        >
+        <mat-icon *ngIf="!juristResult.isFixed" [class.green]="true"
+          >check_box_outline_blank</mat-icon
+        >
+        <mat-icon *ngIf="juristResult.code == '1'" [class.accent]="true"
+          >error</mat-icon
+        >
+        <mat-icon *ngIf="juristResult.code == '2'" [class.green]="true"
+          >warning</mat-icon
+        >
+        <mat-icon *ngIf="juristResult.code == '3'" [class.green]="true"
+          >notifications_none</mat-icon
+        >
+        <span class="title"
+          >{{ resultNumber }})
+          {{
+            juristResult.subtitleClassificationText +
+              " >> " +
+              juristResult.warningClassificationText
+          }}
+        </span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Комментарий</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        [disabled]="juristResult.isFixed || expertPage"
+        >{{ juristResult.fixReason }}</textarea
+      >
+    </mat-form-field>
+    <div class="mt-4 mb-3 p-3" *ngIf="files$ | async as files">
+      <bpm-application-files
+        [files]="files"
+        [fileUploadType]="'defer'"
+        [hasActions]="true"
+      >
+      </bpm-application-files>
+    </div>
+    <button
+      *ngIf="!expertPage"
+      type="submit"
+      class="w-sm-100 px-5 mb-3 mb-md-0"
+      mat-flat-button
+      color="accent"
+      [disabled]="juristResult.isFixed"
+      (click)="submit()"
+    >
+      Исправить</button
+    >&nbsp;
+    <button
+      *ngIf="!expertPage"
+      type="button"
+      mat-flat-button
+      color="primary"
+      class="px-5 w-sm-100 mb-4"
+      (click)="documentDialog()"
+      [disabled]="juristResult.isFixed"
+    >
+      Добавить документ
+    </button>
+    <button
+      *ngIf="expertPage"
+      type="submit"
+      class="w-sm-100 px-5 mb-3 ml-lg-auto"
+      mat-flat-button
+      color="primary"
+      [disabled]="juristResult.isConfirm"
+      (click)="confirm()"
+    >
+      Подтвердить
+    </button>
+    <!-- </form> -->
+  </mat-expansion-panel>
+</mat-accordion>

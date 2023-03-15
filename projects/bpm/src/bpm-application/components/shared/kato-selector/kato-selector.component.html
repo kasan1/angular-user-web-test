@@ -1,0 +1,41 @@
+<span>
+    <mat-form-field appearance="fill">
+        <mat-label>Область</mat-label>
+        <mat-select (selectionChange)="abChanged($event)">
+            <mat-option [value]="0">Не выбрано</mat-option>
+            <mat-option *ngFor="let abRow of abRows$ | async as abRows" [value]="abRow">{{
+            abRow.nameRu
+          }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="cdRows$ | async as cdRows">
+        <mat-label>Район</mat-label>
+        <mat-select (selectionChange)="cdChanged($event)">
+            <mat-option [value]="0">Не выбрано</mat-option>
+            <mat-option *ngFor="let cdRow of cdRows" [value]="cdRow">{{
+            cdRow.nameRu
+          }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="efgRows$ | async as efgRows">
+        <mat-label>Село</mat-label>
+        <mat-select (selectionChange)="efgChanged($event)">
+            <mat-option [value]="0">Не выбрано</mat-option>
+            <mat-option *ngFor="let efgRow of efgRows" [value]="efgRow">{{
+                efgRow.nameRu
+          }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="hijRows$ | async as hijRows">
+        <mat-label>Поселение</mat-label>
+        <mat-select (selectionChange)="hijChanged($event)">
+            <mat-option [value]="0">Не выбрано</mat-option>
+            <mat-option *ngFor="let hijRow of hijRows" [value]="hijRow">{{
+                hijRow.nameRu
+          }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</span>

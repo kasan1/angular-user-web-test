@@ -1,0 +1,114 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="form">
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Название культуры</mat-label>
+          <mat-select formControlName="cultureId">
+            <mat-option *ngFor="let culture of cultures" [value]="culture.id">
+              {{ culture.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Планируемая площадь посевов, га</mat-label>
+          <input
+            matInput
+            formControlName="plannedSquare"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Норма высева (кг на 1 га)</mat-label>
+          <input matInput formControlName="seedingRate" min="0" type="number" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Цена реализации (за 1 тонну)</mat-label>
+          <input
+            matInput
+            formControlName="priceRealization"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Затраты</mat-label>
+          <input matInput formControlName="cost" min="0" type="number" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Урожайность за текущий год</mat-label>
+          <input
+            matInput
+            formControlName="productivityCurrentYear"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Урожайность 1 год назад</mat-label>
+          <input
+            matInput
+            formControlName="productivityLastYear"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Урожайность 2 года назад</mat-label>
+          <input
+            matInput
+            formControlName="productivityBeforeLastYear"
+            min="0"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      class="my-3"
+      *ngIf="!form.invalid"
+      type="submit"
+      color="primary"
+      mat-raised-button
+    >
+      Сохранить
+    </button>
+  </mat-dialog-actions>
+</form>

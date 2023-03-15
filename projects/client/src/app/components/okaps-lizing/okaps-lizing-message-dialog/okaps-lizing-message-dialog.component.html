@@ -1,0 +1,12 @@
+<div>
+  <h1 mat-dialog-title>Внимание</h1>
+  <div mat-dialog-content class="mat-typography">
+    Для подачи заявки на финансирование суммы более
+    <b>{{ maxSum | amountConverter: "ru" }} тенге</b> и при софинансировании
+    менее <b>20%</b> от стоимости предмета лизинга, вам необходимо обратиться в
+    ближайший филиал/представительство <b>АО «КазАгроФинанс»</b>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="m-2">Закрыть</button>
+  </div>
+</div>

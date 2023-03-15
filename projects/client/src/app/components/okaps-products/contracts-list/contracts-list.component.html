@@ -1,0 +1,78 @@
+<div class="wrapper my-5 mx-3">
+  <div class="loader" *ngIf="isLoading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+  </div>
+  <div class="content" [ngStyle]="{ minHeight: isLoading ? '200px' : 'unset' }">
+    <table mat-table [dataSource]="data" class="mat-elevation-z8 w-100">
+      <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef>№ договора</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.number }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Статус</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.status }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="sum">
+        <th mat-header-cell *matHeaderCellDef>Сумма</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.calculator.sum | amountConverter: "ru" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="createdDate">
+        <th mat-header-cell *matHeaderCellDef>Дата создания</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.createdDate | date: "dd-MM-yyyy" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef>Срок</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.calculator.period }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="rate">
+        <th mat-header-cell *matHeaderCellDef>Ставка</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.calculator.rate }}%
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Предмет лизинга</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.description }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="principalDebtBalance">
+        <th mat-header-cell *matHeaderCellDef>Остаток ОД</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.principalDebtBalance | amountConverter: "ru" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="scheduleUrl">
+        <th mat-header-cell *matHeaderCellDef>График платежей</th>
+        <td mat-cell *matCellDef="let element">
+          <a
+            *ngIf="element.scheduleUrl !== null"
+            [href]="fileServerRootUrl + '/' + element.scheduleUrl"
+            target="_blank"
+            class="link"
+            >Скачать</a
+          >
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <mat-paginator
+    class="mat-elevation-z8"
+    [length]="totalCount"
+    [pageSize]="10"
+    aria-label="Select page of user contracts search results"
+  ></mat-paginator>
+</div>

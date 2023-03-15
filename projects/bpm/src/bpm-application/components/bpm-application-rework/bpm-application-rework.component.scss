@@ -1,0 +1,21 @@
+#nextBtn {
+  @media screen and (min-width: 1200px) {
+    position: absolute;
+    right: 0;
+    z-index: 1000;
+  }
+}
+
+#jurist-result-rework {
+  background: #fff;
+
+  .d-flex {
+    button.indicator {
+      margin-left: auto;
+    }
+
+    span.title {
+      margin-left: 1rem;
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="form">
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="row">
+      <div class="col-8">
+        <mat-form-field appearance="outline">
+          <mat-label>Наименование ЮЛ/ФИО ФЛ</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Процентов акции</mat-label>
+          <input
+            matInput
+            formControlName="rate"
+            min="1"
+            max="100"
+            type="number"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-12">
+        <p>Реквизиты</p>
+      </div>
+      <div class="col-12">
+        <ng-container formArrayName="bankAccounts">
+          <div *ngFor="let _ of bankAccounts.controls; index as i">
+            <div class="row" [formGroupName]="i">
+              <div class="col-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>БИК</mat-label>
+                  <input matInput formControlName="bic" />
+                </mat-form-field>
+              </div>
+              <div class="col-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>№ счета</mat-label>
+                  <input matInput formControlName="number" />
+                </mat-form-field>
+              </div>
+              <div class="col-2">
+                <button
+                  mat-icon-button
+                  color="accent"
+                  class="my-1 mx-2"
+                  matTooltip="Удалить"
+                  aria-label="delete icon button"
+                  (click)="removeBankAccount(i)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-12">
+        <button mat-stroked-button color="primary" (click)="addBankAccount()">
+          Добавить
+        </button>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button
+      class="my-3"
+      *ngIf="!form.invalid"
+      type="submit"
+      color="primary"
+      mat-raised-button
+    >
+      Сохранить
+    </button>
+  </mat-dialog-actions>
+</form>

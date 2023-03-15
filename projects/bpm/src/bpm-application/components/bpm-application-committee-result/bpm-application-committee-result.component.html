@@ -1,0 +1,29 @@
+<section id="ccResult" class="mat-elevation-z3" >
+  <div *ngIf="x.length>0; else noDecisions">
+    <div *ngFor="let f of x; let i = index" @fadeIn>
+      <div
+        class="d-flex align-items-center p-3 border"
+        [class.border-bottom-0]="i != x.length-1"
+      >
+        <button mat-icon-button type="button">
+          <mat-icon>person</mat-icon>
+        </button>
+        <span class="title">{{ f.fullName }}</span>
+        <button       
+        mat-icon-button
+        type="button"
+        class="indicator"
+        [class.green]="f.accept"
+        [class.accent]="!f.accept"
+        >
+          <mat-icon *ngIf="f.accept">check_circle</mat-icon> 
+          <mat-icon *ngIf="!f.accept">remove_circle</mat-icon>         
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #noDecisions>
+    <p @fadeInOut>Пусто</p>
+  </ng-template>
+</section>

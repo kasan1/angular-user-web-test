@@ -1,0 +1,136 @@
+<ng-container *ngIf="locale$ | async as locale">
+  <app-dialog-title
+    [readonly]="loading$ | async"
+    [title]="locale.register"
+  ></app-dialog-title>
+
+  <div mat-dialog-content class="px-0 position-relative">
+    <mat-vertical-stepper
+      (selectionChange)="selectedIndex = $event.selectedIndex"
+      [linear]="true"
+      #stepper
+    >
+      <ng-template matStepperIcon="edit">
+        <mat-icon>done</mat-icon>
+      </ng-template>
+      <mat-step [stepControl]="certificateForm">
+        <ng-template matStepLabel>{{ locale.certificate }}</ng-template>
+        <form [formGroup]="certificateForm" autocomplete="off">
+          <app-certificate
+            (certificateLoading)="certLoading = $event"
+            (certificateLoaded)="certificateLoaded($event, stepper)"
+          ></app-certificate>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="registerForm">
+        <ng-template matStepLabel>{{ locale.information }}</ng-template>
+        <p>
+          {{ lastName().value }} {{ firstName().value }}
+          {{ middleName().value }}
+        </p>
+        <p>{{ iin().value }}</p>
+        <p>{{ certificateDateRange() }}</p>
+        <mat-divider></mat-divider>
+        <form
+          (ngSubmit)="register()"
+          autocomplete="off"
+          [formGroup]="registerForm"
+        >
+          <div class="row mt-3">
+            <div class="col-12 mb-2">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ locale.email }}</mat-label>
+                <input
+                  autocomplete="email"
+                  type="email"
+                  matInput
+                  formControlName="email"
+                />
+                <mat-hint
+                  align="end"
+                  class="warn"
+                  @fadeIn
+                  *ngIf="email().errors && email().errors.email"
+                >
+                  {{ locale.emailHint }}
+                </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-12 mb-2">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ locale.phone }}</mat-label>
+                <input
+                  matInput
+                  formControlName="phoneNumber"
+                  mask="(000) 000 00 00"
+                  prefix="+7"
+                  [showMaskTyped]="true"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-12 mb-2">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ locale.password }}</mat-label>
+                <input
+                  autocomplete="new-password"
+                  type="password"
+                  matInput
+                  formControlName="password"
+                />
+                <mat-hint
+                  align="end"
+                  class="warn"
+                  @fadeIn
+                  *ngIf="password().errors && password().errors.invalidPassword"
+                >
+                  {{ password().errors.message }}
+                </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col-12 mb-2">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ locale.confirmPassword }}</mat-label>
+                <input
+                  autocomplete="new-password"
+                  type="password"
+                  matInput
+                  formControlName="confirmPassword"
+                />
+                <mat-hint
+                  class="warn"
+                  align="end"
+                  @fadeIn
+                  *ngIf="
+                    confirmPassword().touched &&
+                    confirmPassword().value !== password().value
+                  "
+                >
+                  {{ locale.passwordHint }}
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+
+  <mat-checkbox
+    *ngIf="selectedIndex === 1"
+    [formControl]="personalDataUsage"
+    (click)="_agreement()"
+    >{{ locale.agreement }}</mat-checkbox
+  >
+  <div mat-dialog-actions *ngIf="selectedIndex === 1" class="mb-2">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="w-xs-100"
+      [disabled]="loading$ | async"
+      (click)="register()"
+    >
+      {{ locale.register }}
+    </button>
+  </div>
+</ng-container>

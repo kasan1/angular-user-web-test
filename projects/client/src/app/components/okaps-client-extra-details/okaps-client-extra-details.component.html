@@ -1,0 +1,108 @@
+<div *ngIf="loading" class="spinner">
+  <mat-spinner color="primary" [diameter]="50"></mat-spinner>
+</div>
+<mat-card *ngIf="!loading" class="m-3">
+  <section class="container">
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">Собственники</h3>
+          <p>Вы являетесь юридическим лицом?</p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="isJuridical"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-juridical-owners-table
+        *ngIf="isJuridical"
+        [isReadOnly]="isReadOnly"
+      ></app-juridical-owners-table>
+      <app-physical-owners-table
+        *ngIf="!isJuridical"
+        [isReadOnly]="isReadOnly"
+      ></app-physical-owners-table>
+    </article>
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">Лицензий</h3>
+          <p>Ваша деятельносить лицензируется?</p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="hasLicenses"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-licenses-table
+        *ngIf="hasLicenses"
+        [isReadOnly]="isReadOnly"
+      ></app-licenses-table>
+      <p *ngIf="!hasLicenses">ДЕЯТЕЛЬНОСТЬ НЕ ЛИЦЕНЗИРУЕТСЯ</p>
+    </article>
+    <article>
+      <div class="row">
+        <div class="col-11">
+          <h3 class="uppercase">Свидетельство НДС</h3>
+          <p>Вы плательщик НДС?</p>
+        </div>
+        <div class="col-1">
+          <mat-radio-group
+            aria-labelledby="radio-group-label"
+            class="radio-group"
+            [(ngModel)]="hasVatCertificate"
+            [disabled]="isReadOnly"
+          >
+            <mat-radio-button class="radio-button" [value]="true">
+              Да
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" [value]="false">
+              Нет
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <app-vat-certificate-table
+        *ngIf="hasVatCertificate"
+        [isReadOnly]="isReadOnly"
+      ></app-vat-certificate-table>
+      <p *ngIf="!hasVatCertificate">НЕ ЯВЛЯЕТСЯ ПЛАТЕЛЬЩИКОМ НДС</p>
+    </article>
+
+    <div class="row">
+      <div class="col">
+        <button
+          mat-raised-button
+          (click)="save()"
+          color="primary"
+          class="float-right"
+          [disabled]="saving"
+        >
+          {{ isReadOnly ? "Далее" : "Сохранить" }}
+        </button>
+      </div>
+    </div>
+  </section>
+</mat-card>

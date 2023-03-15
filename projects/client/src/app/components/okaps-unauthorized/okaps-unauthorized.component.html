@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <div class="row h-100">
+    <div class="col-md-4">
+      <div>
+        <div class="row mt-5">
+          <div class="col-md-8">
+            <button
+              id="register"
+              type="button"
+              (click)="register()"
+              mat-raised-button
+            >
+              Регистрация
+            </button>
+          </div>
+
+          <div class="col-md-4 d-flex justify-content-end">
+            <mat-button-toggle-group
+              *ngIf="currentLocale$ | async as cl"
+              [value]="cl"
+              (change)="switchLocale($event)"
+            >
+              <mat-button-toggle value="ru">RU</mat-button-toggle>
+              <mat-button-toggle value="kz">KZ</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-auto">
+        <app-okaps-login></app-okaps-login>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="bg"></div>
+    </div>
+  </div>
+</div>

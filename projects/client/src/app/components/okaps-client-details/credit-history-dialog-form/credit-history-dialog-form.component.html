@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()" class="form">
+  <h3 class="text-center m-0 mb-4">{{ title }}</h3>
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Наименование КТ, МФО или МКО</mat-label>
+        <input matInput formControlName="fullName" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Сумма кредитной задолженности, тенге</mat-label>
+        <input matInput formControlName="sum" min="0" type="number" />
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Дата выдачи</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dateIssue"
+          formControlName="dateIssue"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="dateIssue"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #dateIssue></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Срок погашения по кредитному договору</mat-label>
+        <input matInput formControlName="period" min="0" type="number" />
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label> Остаток непогашенной задолженности, тенге</mat-label>
+        <input matInput formControlName="balance" min="0" type="number" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col text-center">
+      <button
+        *ngIf="!form.invalid"
+        type="submit"
+        color="primary"
+        mat-raised-button
+      >
+        Сохранить
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,48 @@
+<input type="file" hidden #fileInput multiple (change)="uploaded($event)" />
+
+<mat-card
+  style="box-shadow: none !important"
+  *ngIf="locale$ | async as locale"
+  class="px-3 py-2"
+>
+  <mat-card-content [class.mb-0]="files.length === 0 && !warning" @fadeInOut>
+    <span *ngIf="warning" class="warn" @fadeInOut style="font-size: 0.8rem">{{
+      warning
+    }}</span>
+    <div
+      [@fadeInOutSequence]="files.length"
+      [class.mb-3]="files.length || initialFiles.length"
+    >
+      <div *ngFor="let initialFile of initialFiles">
+        <bpm-file-item
+          [locale]="locale"
+          [file]="initialFile"
+          [hasActions]="hasActions"
+          (deleted)="deleted($event)"
+        ></bpm-file-item>
+      </div>
+      <div *ngFor="let file of files">
+        <bpm-file-item
+          [locale]="locale"
+          [file]="file"
+          [hasActions]="hasActions"
+          (deleted)="deleted($event)"
+        ></bpm-file-item>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="d-flex pt-0 mb-0">
+    <button mat-button [color]="warning ? 'warn' : ''">
+      {{ currentSizeMb }} / {{ maxMb }} MB
+    </button>
+    <button
+      *ngIf="hasActions"
+      type="button"
+      class="ml-auto"
+      mat-icon-button
+      (click)="warning = ''; currentSizeMb = 0; fileInput.click()"
+    >
+      <mat-icon>attachment</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
